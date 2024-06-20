@@ -1,5 +1,15 @@
 part of 'daily_goals_bloc.dart';
 
-abstract class DailyGoalsState {}
+class DailyGoalsState {
+  final List<DailyGoal> dailyGoals;
 
-final class DailyGoalsInitial extends DailyGoalsState {}
+  DailyGoalsState({this.dailyGoals = const []});
+
+  DailyGoalsState copyWith({
+    List<DailyGoal>? dailyGoals,
+  }) {
+    return DailyGoalsState(
+      dailyGoals: dailyGoals ?? this.dailyGoals,
+    );
+  }
+}
