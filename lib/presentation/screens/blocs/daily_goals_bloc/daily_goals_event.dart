@@ -22,3 +22,9 @@ class RemoveDailyGoal extends DailyGoalsEvent {
 
   RemoveDailyGoal({required this.dailyGoalId});
 }
+
+class ToggleDailyGoalStatus extends DailyGoalsEvent {
+  final int goalId;
+
+  ToggleDailyGoalStatus({required this.goalId});
+}

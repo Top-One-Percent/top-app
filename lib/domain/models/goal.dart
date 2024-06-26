@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:uuid/uuid.dart';
 
 part 'goal.g.dart';
 
@@ -20,13 +21,18 @@ class Goal extends HiveObject {
   @HiveField(4)
   final DateTime targetDate;
 
+  @HiveField(5)
+  final String id;
+
   Goal({
     required this.name,
     required this.target,
     required Color color,
     this.logs = const [],
     required this.targetDate,
-  }) : colorValue = color.value;
+    String? id,
+  })  : colorValue = color.value,
+        id = id ?? const Uuid().v4();
 
   Color get color => Color(colorValue);
 }

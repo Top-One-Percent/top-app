@@ -7,5 +7,8 @@ class DevelopmentGoal {
   @HiveField(0)
   final String name;
 
-  DevelopmentGoal({required this.name});
+  @HiveField(1)
+  final bool isCompleted;
+
+  DevelopmentGoal(this.isCompleted, {required this.name});
 }

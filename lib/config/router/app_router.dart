@@ -35,6 +35,10 @@ final appRouter = GoRouter(
       builder: (context, state) => const HabitsScreen(),
     ),
     GoRoute(
+      path: '/newHabit',
+      builder: (context, state) => const NewHabitScreen(),
+    ),
+    GoRoute(
       path: '/mindset',
       builder: (context, state) => const MindsetScreen(),
     ),

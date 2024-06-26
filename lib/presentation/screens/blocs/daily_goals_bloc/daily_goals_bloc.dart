@@ -12,6 +12,7 @@ class DailyGoalsBloc extends Bloc<DailyGoalsEvent, DailyGoalsState> {
     on<AddDailyGoal>(_addDailyGoal);
     on<EditDailyGoal>(_editDailyGoal);
     on<RemoveDailyGoal>(_removeDailyGoal);
+    on<ToggleDailyGoalStatus>(_toggleDailyGoalStatus);
   }
 
   void _loadDailyGoals(LoadDailyGoals event, Emitter<DailyGoalsState> emit) {
@@ -20,7 +21,7 @@ class DailyGoalsBloc extends Bloc<DailyGoalsEvent, DailyGoalsState> {
   }
 
   void _addDailyGoal(AddDailyGoal event, Emitter<DailyGoalsState> emit) {
-    final newDailyGoal = DailyGoal(name: event.dailyGoalName);
+    final newDailyGoal = DailyGoal(name: event.dailyGoalName, false);
 
     dailyGoalsBox.add(newDailyGoal);
 
@@ -30,7 +31,7 @@ class DailyGoalsBloc extends Bloc<DailyGoalsEvent, DailyGoalsState> {
   }
 
   void _editDailyGoal(EditDailyGoal event, Emitter<DailyGoalsState> emit) {
-    final editedDailyGoal = DailyGoal(name: event.newName);
+    final editedDailyGoal = DailyGoal(name: event.newName, false);
 
     dailyGoalsBox.putAt(event.dailyGoalId, editedDailyGoal);
 
@@ -46,6 +47,17 @@ class DailyGoalsBloc extends Bloc<DailyGoalsEvent, DailyGoalsState> {
 
     dailyGoalsBox.deleteAt(event.dailyGoalId);
 
+    emit(state.copyWith(dailyGoals: updatedDailyGoals));
+  }
+
+  void _toggleDailyGoalStatus(ToggleDailyGoalStatus event, Emitter<DailyGoalsState> emit) {
+    final currentGoal = state.dailyGoals[event.goalId];
+    final newGoal = DailyGoal(!currentGoal.isCompleted, name: currentGoal.name);
+
+    final updatedDailyGoals = List<DailyGoal>.from(state.dailyGoals);
+    updatedDailyGoals[event.goalId] = newGoal;
+
+    dailyGoalsBox.putAt(event.goalId, newGoal);
     emit(state.copyWith(dailyGoals: updatedDailyGoals));
   }
 }

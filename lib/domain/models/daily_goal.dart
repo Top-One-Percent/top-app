@@ -7,5 +7,8 @@ class DailyGoal extends HiveObject {
   @HiveField(0)
   final String name;
 
-  DailyGoal({required this.name});
+  @HiveField(1)
+  final bool isCompleted;
+
+  DailyGoal(this.isCompleted, {required this.name});
 }

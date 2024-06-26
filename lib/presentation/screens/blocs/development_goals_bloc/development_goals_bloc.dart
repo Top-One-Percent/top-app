@@ -14,6 +14,7 @@ class DevelopmentGoalsBloc extends Bloc<DevelopmentGoalsEvent, DevelopmentGoalsS
     on<AddDevGoal>(_addDevGoal);
     on<EditDevGoal>(_editDevGoal);
     on<RemoveDevGoal>(_removeDevGoal);
+    on<ToggleDevGoalList>(_toggleDevGoalList);
   }
 
   void _loadDevGoals(LoadDevGoals event, Emitter<DevelopmentGoalsState> emit) {
@@ -24,7 +25,7 @@ class DevelopmentGoalsBloc extends Bloc<DevelopmentGoalsEvent, DevelopmentGoalsS
   }
 
   void _addDevGoal(AddDevGoal event, Emitter<DevelopmentGoalsState> emit) {
-    final newDevGoal = DevelopmentGoal(name: event.devGoalName);
+    final newDevGoal = DevelopmentGoal(name: event.devGoalName, false);
 
     final updatedDevGoals = List<DevelopmentGoal>.from(
         event.list == DevelopmentList.toImprove ? state.toImprove : state.toKeep)
@@ -42,7 +43,7 @@ class DevelopmentGoalsBloc extends Bloc<DevelopmentGoalsEvent, DevelopmentGoalsS
   void _editDevGoal(EditDevGoal event, Emitter<DevelopmentGoalsState> emit) {
     final bool isToImprov = event.list == DevelopmentList.toImprove ? true : false;
 
-    final editedDevGoal = DevelopmentGoal(name: event.newName);
+    final editedDevGoal = DevelopmentGoal(name: event.newName, false);
 
     final updatedDevGoals = List<DevelopmentGoal>.from(isToImprov ? state.toImprove : state.toKeep);
     updatedDevGoals[event.devGoalId] = editedDevGoal;
@@ -68,6 +69,37 @@ class DevelopmentGoalsBloc extends Bloc<DevelopmentGoalsEvent, DevelopmentGoalsS
     } else {
       keepGoalsBox.deleteAt(event.devGoalId);
       emit(state.copyWith(toKeep: updatedDevGoals));
+    }
+  }
+
+  void _toggleDevGoalList(ToggleDevGoalList event, Emitter<DevelopmentGoalsState> emit) {
+    late DevelopmentGoal goal;
+
+    if (event.currentList == DevelopmentList.toImprove) {
+      goal = state.toImprove[event.currentListId];
+
+      improvGoalsBox.deleteAt(event.currentListId);
+
+      final updatedToImprov = List<DevelopmentGoal>.from(state.toImprove)
+        ..removeAt(event.currentListId);
+
+      keepGoalsBox.add(goal);
+
+      final updatedToKeep = List<DevelopmentGoal>.from(state.toKeep)..add(goal);
+
+      emit(state.copyWith(toKeep: updatedToKeep, toImprove: updatedToImprov));
+    } else if (event.currentList == DevelopmentList.toKeep) {
+      goal = state.toKeep[event.currentListId];
+
+      keepGoalsBox.deleteAt(event.currentListId);
+
+      final updatedToKeep = List<DevelopmentGoal>.from(state.toKeep)..removeAt(event.currentListId);
+
+      improvGoalsBox.add(goal);
+
+      final updatedToImprov = List<DevelopmentGoal>.from(state.toImprove)..add(goal);
+
+      emit(state.copyWith(toKeep: updatedToKeep, toImprove: updatedToImprov));
     }
   }
 }

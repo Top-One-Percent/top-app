@@ -82,7 +82,11 @@ class GoalProgressView extends StatelessWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Update value'),
+          title: const Text(
+            'Update value',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.black,
           content: TextFormFieldWidget(
             controller: _valueController,
             keyboardType: TextInputType.number,

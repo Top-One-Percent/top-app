@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top/config/router/app_router.dart';
 import 'package:top/presentation/screens/blocs/blocs.dart';
 import 'package:top/presentation/screens/home/goals/goal_card.dart';
-import 'package:top/presentation/widgets/widgets.dart';
 
 class GoalsScreen extends StatelessWidget {
   const GoalsScreen({super.key});
@@ -11,10 +10,6 @@ class GoalsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Goals'),
-        centerTitle: false,
-      ),
       body: BlocBuilder<GoalBloc, GoalState>(
         builder: (context, state) {
           if (state.goals.isEmpty) {
@@ -41,7 +36,7 @@ class GoalsScreen extends StatelessWidget {
                       child: const Icon(
                         Icons.delete_sweep,
                         color: Colors.white,
-                        size: 40.0,
+                        size: 35.0,
                       ),
                     ),
                     child: GoalCard(

@@ -16,8 +16,7 @@ class ColorPickerFormFieldWidget extends StatelessWidget {
     return DropdownButtonFormField<Color>(
       value: selectedColor,
       decoration: InputDecoration(
-        labelText: 'Select Color',
-        labelStyle: const TextStyle(color: AppColors.grey),
+        // Removed labelText to use a custom layout inside DropdownMenuItem
         filled: true,
         fillColor: Colors.grey[850],
         border: OutlineInputBorder(
@@ -39,10 +38,17 @@ class ColorPickerFormFieldWidget extends StatelessWidget {
       items: AppColors.colorOptions.map((Color color) {
         return DropdownMenuItem<Color>(
           value: color,
-          child: Container(
-            width: 24,
-            height: 24,
-            color: color,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 24,
+                height: 24,
+                color: color,
+              ),
+              const SizedBox(width: 15.0), // Space between the color box and text
+              const Text('Select Color', style: TextStyle(color: AppColors.grey)),
+            ],
           ),
         );
       }).toList(),

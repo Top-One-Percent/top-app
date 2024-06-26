@@ -4,3 +4,7 @@ export 'buttons/white_filled_button_widget.dart';
 export 'buttons/circular_button.dart';
 export 'forms/date_selector_widget.dart';
 export 'navigation/nav_bar_widget.dart';
+export 'forms/days_selector_widget.dart';
+export 'forms/hours_selector_widget.dart';
+export 'forms/icon_selector_widget.dart';
+export 'forms/unit_type_selector_widget.dart';

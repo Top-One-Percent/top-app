@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 import 'package:top/presentation/screens/screens.dart';
-import 'package:top/presentation/widgets/widgets.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,8 +23,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
+        physics: const NeverScrollableScrollPhysics(),
         controller: pageController,
         children: const [
+          DailyOnePercentScreen(),
           GoalsScreen(),
           HabitsScreen(),
           MindsetScreen(),
@@ -34,7 +35,12 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: StylishBottomBar(
         items: [
           BottomBarItem(
-            icon: const Icon(Icons.home_outlined),
+            icon: const Icon(Icons.plus_one_sharp),
+            title: const Text('Daily'),
+            backgroundColor: Colors.white,
+          ),
+          BottomBarItem(
+            icon: const Icon(Icons.access_time),
             title: const Text('Goals'),
             backgroundColor: Colors.white,
           ),

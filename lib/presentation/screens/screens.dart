@@ -5,3 +5,5 @@ export 'edit_goal/edit_goal_screen.dart';
 export 'home/habits/habits_screen.dart';
 export 'home/mindset/mindset_screen.dart';
 export 'home/home_screen.dart';
+export 'home/daily_one_percent/daily_one_percent_screen.dart';
+export 'add_habit/new_habit_screen.dart';

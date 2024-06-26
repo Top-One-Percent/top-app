@@ -25,3 +25,10 @@ class RemoveDevGoal extends DevelopmentGoalsEvent {
 
   RemoveDevGoal({required this.list, required this.devGoalId});
 }
+
+class ToggleDevGoalList extends DevelopmentGoalsEvent {
+  final int currentListId;
+  final DevelopmentList currentList;
+
+  ToggleDevGoalList({required this.currentList, required this.currentListId});
+}

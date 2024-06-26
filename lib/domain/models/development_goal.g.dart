@@ -17,6 +17,7 @@ class DevelopmentGoalAdapter extends TypeAdapter<DevelopmentGoal> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return DevelopmentGoal(
+      fields[1] as bool,
       name: fields[0] as String,
     );
   }
@@ -24,9 +25,11 @@ class DevelopmentGoalAdapter extends TypeAdapter<DevelopmentGoal> {
   @override
   void write(BinaryWriter writer, DevelopmentGoal obj) {
     writer
-      ..writeByte(1)
+      ..writeByte(2)
       ..writeByte(0)
-      ..write(obj.name);
+      ..write(obj.name)
+      ..writeByte(1)
+      ..write(obj.isCompleted);
   }
 
   @override

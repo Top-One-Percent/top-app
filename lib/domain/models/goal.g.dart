@@ -19,16 +19,17 @@ class GoalAdapter extends TypeAdapter<Goal> {
     return Goal(
       name: fields[0] as String,
       target: fields[1] as int,
-      color: Color(fields[2]),
+      color: fields[2] as Color,
       logs: (fields[3] as List).cast<Log>(),
-      targetDate: fields[4] != null ? fields[4] as DateTime : DateTime.now(),
+      targetDate: fields[4] as DateTime,
+      id: fields[5] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Goal obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -38,7 +39,9 @@ class GoalAdapter extends TypeAdapter<Goal> {
       ..writeByte(3)
       ..write(obj.logs)
       ..writeByte(4)
-      ..write(obj.targetDate);
+      ..write(obj.targetDate)
+      ..writeByte(5)
+      ..write(obj.id);
   }
 
   @override
