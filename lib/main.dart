@@ -21,6 +21,7 @@ void main() async {
   Hive.registerAdapter(DailyGoalAdapter());
   Hive.registerAdapter(DevelopmentGoalAdapter());
   Hive.registerAdapter(HabitAdapter());
+  Hive.registerAdapter(HabitLogAdapter());
 
   // Open a box
   final goalsBox = await Hive.openBox<Goal>('goalsBox');

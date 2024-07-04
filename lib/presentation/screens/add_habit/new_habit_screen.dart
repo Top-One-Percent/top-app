@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:top/config/router/app_router.dart';
 import 'package:top/config/theme/app_colors.dart';
+import 'package:top/domain/models/models.dart';
+import 'package:top/presentation/screens/blocs/blocs.dart';
 import 'package:top/presentation/widgets/widgets.dart';
 
 class NewHabitScreen extends StatefulWidget {
@@ -10,23 +14,25 @@ class NewHabitScreen extends StatefulWidget {
 }
 
 class _NewHabitScreenState extends State<NewHabitScreen> {
+  final _nameController = TextEditingController();
+  final _countController = TextEditingController();
+
+  Color _selectedColor = AppColors.colorOptions[0];
+  List<int> _selectedDays = [];
+  List<String> _selectedHours = [];
+  String _selectedIcon = '57402';
+  String _selectedUnitType = 'rep';
+  List<String> _selectedSteps = [];
+  var count;
+  Goal? _selectedGoal = Goal(
+    name: '',
+    target: 0,
+    color: Colors.black,
+    targetDate: DateTime.now(),
+  );
+
   @override
   Widget build(BuildContext context) {
-    final _nameController = TextEditingController();
-    final _countController = TextEditingController();
-
-    Color _selectedColor = AppColors.colorOptions[0];
-    List<int> _selectedDays = [];
-    List<TimeOfDay> _selectedHours = [];
-    String _selectedIcon = '';
-    String _selectedUnitType = '';
-
-    void _updateSelectedHours(List<TimeOfDay> hours) {
-      setState(() {
-        _selectedHours = hours;
-      });
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add New Habit'),
@@ -63,6 +69,15 @@ class _NewHabitScreenState extends State<NewHabitScreen> {
                   },
                 ),
                 const SizedBox(height: 20.0),
+                RelatedGoalSelector(
+                  selectedGoal: _selectedGoal,
+                  onGoalChanged: (selGoal) {
+                    setState(() {
+                      _selectedGoal = selGoal;
+                    });
+                  },
+                ),
+                const SizedBox(height: 20.0),
                 DaysSelectorWidget(
                   onSelectionChanged: (selectedDays) {
                     setState(() {
@@ -71,7 +86,13 @@ class _NewHabitScreenState extends State<NewHabitScreen> {
                   },
                 ),
                 const SizedBox(height: 20.0),
-                HoursSelectorWidget(onHoursChanged: _updateSelectedHours),
+                HoursSelectorWidget(
+                  onHoursChanged: (hours) {
+                    setState(() {
+                      _selectedHours = hours.map((e) => e.format(context)).toList();
+                    });
+                  },
+                ),
                 const SizedBox(height: 20.0),
                 IconSelectorWidget(
                   onIconSelected: (icon) {
@@ -86,6 +107,83 @@ class _NewHabitScreenState extends State<NewHabitScreen> {
                     _selectedUnitType = unitType;
                   });
                 }),
+                const SizedBox(height: 20.0),
+                StepsCreatorWidget(
+                  onStepsChanged: (steps) {
+                    setState(() {
+                      _selectedSteps = steps;
+                    });
+                  },
+                ),
+                const SizedBox(height: 25.0),
+                WhiteFilledButtonWidget(
+                  onPressed: () {
+                    if (_nameController.text.isEmpty ||
+                        _countController.text.isEmpty ||
+                        _selectedDays.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Row(
+                            children: [
+                              Icon(Icons.error_outline),
+                              SizedBox(width: 10.0),
+                              Text(
+                                'Please fill all fields',
+                                style: TextStyle(color: Colors.white, fontSize: 16.0),
+                              ),
+                            ],
+                          ),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                      return;
+                    }
+
+                    if (_selectedUnitType != 'rep') {
+                      if (_selectedUnitType == 'hr') {
+                        count = (int.parse(_countController.text) * 3600).toDouble();
+                      } else if (_selectedUnitType == 'min') {
+                        count = (int.parse(_countController.text) * 60).toDouble();
+                      }
+                    } else {
+                      count = double.parse(_countController.text);
+                    }
+
+                    context.read<HabitsBloc>().add(
+                          AddHabit(
+                            name: _nameController.text,
+                            frequency: _selectedDays,
+                            color: _selectedColor,
+                            icon: _selectedIcon,
+                            unitType: _selectedUnitType,
+                            target: count,
+                            steps: _selectedSteps,
+                            remindersTime: _selectedHours,
+                            linkedGoalId: _selectedGoal != null ? _selectedGoal!.id : '0',
+                          ),
+                        );
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Row(
+                          children: [
+                            Icon(
+                              Icons.check_box_rounded,
+                            ),
+                            SizedBox(width: 10.0),
+                            Text('Habit Added Successfully!',
+                                style: TextStyle(color: Colors.white, fontSize: 16.0)),
+                          ],
+                        ),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+
+                    appRouter.pop();
+                  },
+                  buttonText: 'Create Habit',
+                ),
+                const SizedBox(height: 50.0),
               ],
             ),
           ),

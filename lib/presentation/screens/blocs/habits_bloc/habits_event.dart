@@ -61,7 +61,7 @@ class RemoveHabit extends HabitsEvent {
 }
 
 class UpdateHabit extends HabitsEvent {
-  final String habitId;
+  final int habitId;
   final double newComplianceRate;
 
   UpdateHabit({required this.habitId, required this.newComplianceRate});

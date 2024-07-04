@@ -10,7 +10,7 @@ class UnitTypeSelectorWidget extends StatefulWidget {
 }
 
 class _UnitTypeSelectorWidgetState extends State<UnitTypeSelectorWidget> {
-  String _selectedUnit = 'rep'; // Default unit
+  String _selectedUnit = 'rep';
 
   void _showUnitPickerBottomSheet() {
     showModalBottomSheet(

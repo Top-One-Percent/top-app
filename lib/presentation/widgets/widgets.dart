@@ -8,3 +8,5 @@ export 'forms/days_selector_widget.dart';
 export 'forms/hours_selector_widget.dart';
 export 'forms/icon_selector_widget.dart';
 export 'forms/unit_type_selector_widget.dart';
+export 'forms/steps_creator_widget.dart';
+export 'forms/related_goal_selector.dart';

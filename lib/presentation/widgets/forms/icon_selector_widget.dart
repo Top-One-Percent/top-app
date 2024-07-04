@@ -10,7 +10,7 @@ class IconSelectorWidget extends StatefulWidget {
 }
 
 class _IconSelectorWidgetState extends State<IconSelectorWidget> {
-  IconData _selectedIcon = Icons.access_time; // Default icon
+  IconData _selectedIcon = Icons.access_time;
 
   void _showIconPickerBottomSheet() {
     showModalBottomSheet(

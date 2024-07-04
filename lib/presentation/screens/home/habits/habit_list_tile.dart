@@ -13,9 +13,15 @@ class HabitListTile extends StatelessWidget {
     return BlocBuilder<HabitsBloc, HabitsState>(
       builder: (context, state) {
         var habit = state.habits[habitIndex];
+        final iconCodePoint = int.parse(habit.icon);
 
         return ListTile(
           title: Text(habit.name, style: const TextStyle(color: Colors.white, fontSize: 20.0)),
+          leading: Icon(
+            IconData(iconCodePoint, fontFamily: 'MaterialIcons'),
+            color: Color(habit.colorValue),
+            size: 30.0,
+          ),
           trailing: Text(
             '${(_calculateProgress(habit) * 100).round().toString()}%',
             style: const TextStyle(fontSize: 18.0),

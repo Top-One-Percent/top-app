@@ -19,7 +19,7 @@ class GoalAdapter extends TypeAdapter<Goal> {
     return Goal(
       name: fields[0] as String,
       target: fields[1] as int,
-      color: fields[2] as Color,
+      color: Color(fields[2]),
       logs: (fields[3] as List).cast<Log>(),
       targetDate: fields[4] as DateTime,
       id: fields[5] as String?,

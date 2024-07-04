@@ -39,6 +39,12 @@ final appRouter = GoRouter(
       builder: (context, state) => const NewHabitScreen(),
     ),
     GoRoute(
+        path: '/habit/:id',
+        builder: (context, state) {
+          final id = int.parse(state.pathParameters['id']!);
+          return SingleHabitScreen(habitId: id);
+        }),
+    GoRoute(
       path: '/mindset',
       builder: (context, state) => const MindsetScreen(),
     ),

@@ -23,7 +23,7 @@ class HabitAdapter extends TypeAdapter<Habit> {
       remidersTime: (fields[3] as List?)?.cast<String>(),
       steps: (fields[4] as List?)?.cast<String>(),
       linkedGoalId: fields[5] as String?,
-      color: fields[6] as Color,
+      color: Color(fields[6]),
       icon: fields[7] as String,
       unitType: fields[8] as String,
       habitLogs: (fields[9] as List).cast<HabitLog>(),

@@ -30,6 +30,9 @@ class HabitsBloc extends Bloc<HabitsEvent, HabitsState> {
       icon: event.icon,
       unitType: event.unitType,
       target: event.target,
+      steps: event.steps ?? [],
+      remidersTime: event.remindersTime ?? [],
+      linkedGoalId: event.linkedGoalId ?? '',
     );
 
     habitsBox.add(newHabit);
@@ -65,24 +68,24 @@ class HabitsBloc extends Bloc<HabitsEvent, HabitsState> {
 
   void _updateHabit(UpdateHabit event, Emitter<HabitsState> emit) {
     final updatedHabits = List<Habit>.from(state.habits);
-    final habitIndex = updatedHabits.indexWhere((element) => element.id == event.habitId);
-    final habit = updatedHabits[habitIndex];
+
+    final habit = updatedHabits[event.habitId];
     final updatedHabitLogs = List<HabitLog>.from(habit.habitLogs)
       ..add(HabitLog(date: DateTime.now(), complianceRate: event.newComplianceRate));
 
     final updatedHabit = Habit(
       name: habit.name,
       frequency: habit.frequency,
-      color: habit.colorValue as Color,
+      color: Color(habit.colorValue),
       icon: habit.icon,
       unitType: habit.unitType,
       habitLogs: updatedHabitLogs,
       target: habit.target,
     );
 
-    habitsBox.putAt(habitIndex, updatedHabit);
+    habitsBox.putAt(event.habitId, updatedHabit);
 
-    updatedHabits[habitIndex] = updatedHabit;
+    updatedHabits[event.habitId] = updatedHabit;
     emit(state.copyWith(habits: updatedHabits));
   }
 
