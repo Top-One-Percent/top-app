@@ -5,10 +5,17 @@ import 'package:top/config/router/app_router.dart';
 import 'package:top/presentation/screens/blocs/blocs.dart';
 import 'package:top/presentation/screens/screens.dart';
 
-class SingleHabitScreen extends StatelessWidget {
+class SingleHabitScreen extends StatefulWidget {
   final int habitId;
 
   const SingleHabitScreen({super.key, required this.habitId});
+
+  @override
+  State<SingleHabitScreen> createState() => _SingleHabitScreenState();
+}
+
+class _SingleHabitScreenState extends State<SingleHabitScreen> {
+  bool stepsCompleted = false;
 
   @override
   Widget build(BuildContext context) {
@@ -18,39 +25,48 @@ class SingleHabitScreen extends StatelessWidget {
       appBar: AppBar(
         title: BlocBuilder<HabitsBloc, HabitsState>(
           builder: (context, state) {
-            final habit = state.habits[habitId];
+            final habit = state.habits[widget.habitId];
 
             return Text(habit.name);
           },
         ),
-        actions: [
-          IconButton(
-              onPressed: () {
-                appRouter.push('/editGoal/$habitId');
-              },
-              icon: const Icon(Icons.edit))
-        ],
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: PageView(
-              controller: _controller,
-              children: [
-                HabitProgressView(habitId: habitId),
-                const HabitStatsView(),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: SmoothPageIndicator(
-              controller: _controller,
-              count: 2,
-              effect: const ExpandingDotsEffect(activeDotColor: Colors.white),
-            ),
-          )
-        ],
+      body: BlocBuilder<HabitsBloc, HabitsState>(
+        builder: (context, state) {
+          final habit = state.habits[widget.habitId];
+          final steps = habit.steps;
+          return Column(
+            children: [
+              Expanded(
+                child: steps != null && steps.isNotEmpty && stepsCompleted == false
+                    ? StepScreen(
+                        steps: steps,
+                        habitColor: Color(habit.colorValue),
+                        onStepsFinished: () {
+                          setState(() {
+                            stepsCompleted = true;
+                          });
+                        },
+                      )
+                    : PageView(
+                        controller: _controller,
+                        children: [
+                          HabitProgressView(habitId: widget.habitId),
+                          const HabitStatsView(),
+                        ],
+                      ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: SmoothPageIndicator(
+                  controller: _controller,
+                  count: 2,
+                  effect: const ExpandingDotsEffect(activeDotColor: Colors.white),
+                ),
+              )
+            ],
+          );
+        },
       ),
     );
   }
