@@ -36,35 +36,45 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
 
   late Goal? _selectedGoal;
 
+  bool hasDecimalPart(double number) {
+    return number % 1 != 0;
+  }
+
   @override
   void initState() {
+    super.initState();
+
     final habit = context.read<HabitsBloc>().state.habits[widget.habitId];
-    final Goal linkedGoal = context
-            .read<GoalBloc>()
-            .state
-            .goals
-            .where((goal) => goal.id == habit.linkedGoalId)
-            .isNotEmpty
-        ? context.read<GoalBloc>().state.goals.where((goal) => goal.id == habit.linkedGoalId).first
-        : Goal(
-            name: '',
-            target: 0,
-            color: Colors.black,
-            targetDate: DateTime.now(),
-          );
+    final goalBloc = context.read<GoalBloc>().state.goals;
+    Goal linkedGoal = goalBloc.firstWhere(
+      (goal) => goal.id == habit.linkedGoalId,
+      orElse: () => Goal(
+        name: '',
+        target: 0,
+        color: Colors.black,
+        targetDate: DateTime.now(),
+      ),
+    );
 
     _nameController = TextEditingController(text: habit.name);
-    _countController = TextEditingController(text: habit.target.toString());
+    _selectedUnitType = habit.unitType;
+
+    double count = habit.target.toDouble();
+    if (_selectedUnitType == 'hr') {
+      count = count / 3600;
+    } else if (_selectedUnitType == 'min') {
+      count = count / 60;
+    }
+
+    _countController = TextEditingController(
+        text: hasDecimalPart(count) ? count.toString() : count.toInt().toString());
+
     _selectedColor = Color(habit.colorValue);
     _selectedDays = habit.frequency;
     _selectedHours = habit.remidersTime ?? [];
     _selectedIcon = habit.icon;
-    _selectedUnitType = habit.unitType;
     _selectedSteps = habit.steps ?? [];
-    count = _countController.text;
     _selectedGoal = linkedGoal;
-
-    super.initState();
   }
 
   @override
