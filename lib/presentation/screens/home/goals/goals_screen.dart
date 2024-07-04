@@ -12,7 +12,11 @@ class GoalsScreen extends StatelessWidget {
     return Scaffold(
       body: BlocBuilder<GoalBloc, GoalState>(
         builder: (context, state) {
-          if (state.goals.isEmpty) {
+          if (state.isLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state.goals.isEmpty) {
             return const Center(
               child: Text(
                 'No goals yet',

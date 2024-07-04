@@ -11,50 +11,49 @@ class RelatedGoalSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GoalBloc, GoalState>(
-      builder: (context, state) {
-        final goals = state.goals;
-        final items = <DropdownMenuItem<Goal?>>[
-          const DropdownMenuItem<Goal?>(
-            value: null, // This represents the 'None' option
-            child: Text('None'),
-          ),
-        ];
+    return BlocBuilder<GoalBloc, GoalState>(builder: (context, state) {
+      final goals = state.goals;
+      final items = <DropdownMenuItem<Goal?>>[
+        const DropdownMenuItem<Goal?>(
+          value: null, // This represents the 'None' option
+          child: Text('None'),
+        ),
+      ];
 
-        items.addAll(
-          goals
-              .map(
-                (goal) => DropdownMenuItem<Goal?>(
-                  value: goal,
-                  child: Text(goal.name),
-                ),
-              )
-              .toList(),
-        );
+      items.addAll(
+        goals
+            .map(
+              (goal) => DropdownMenuItem<Goal?>(
+                value: goal,
+                child: Text(goal.name),
+              ),
+            )
+            .toList(),
+      );
 
-        return DropdownButtonFormField<Goal?>(
-          hint: const Text('Select Related Goal'),
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: Colors.grey[850],
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.0),
-              borderSide: BorderSide.none,
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.0),
-              borderSide: BorderSide(color: Colors.grey[700]!),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.0),
-              borderSide: const BorderSide(color: Colors.white),
-            ),
-            contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+      return DropdownButtonFormField<Goal?>(
+        value: selectedGoal,
+        hint: const Text('Select Related Goal'),
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.grey[850],
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.0),
+            borderSide: BorderSide.none,
           ),
-          items: items,
-          onChanged: onGoalChanged,
-        );
-      },
-    );
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.0),
+            borderSide: BorderSide(color: Colors.grey[700]!),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.0),
+            borderSide: const BorderSide(color: Colors.white),
+          ),
+          contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+        ),
+        items: items,
+        onChanged: onGoalChanged,
+      );
+    });
   }
 }

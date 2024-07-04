@@ -4,8 +4,9 @@ import '../../../domain/models/models.dart';
 
 class DaysSelectorWidget extends StatefulWidget {
   final Function(List<int>) onSelectionChanged;
+  final List<int>? initialSelectedDays;
 
-  const DaysSelectorWidget({super.key, required this.onSelectionChanged});
+  const DaysSelectorWidget({super.key, required this.onSelectionChanged, this.initialSelectedDays});
 
   @override
   _DaysSelectorWidgetState createState() => _DaysSelectorWidgetState();
@@ -41,6 +42,7 @@ class _DaysSelectorWidgetState extends State<DaysSelectorWidget> {
 
   @override
   Widget build(BuildContext context) {
+    selectedDays = widget.initialSelectedDays ?? selectedDays;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: days.map((day) {

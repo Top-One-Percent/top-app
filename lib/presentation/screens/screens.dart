@@ -11,3 +11,4 @@ export 'single_habit/habit_progress_view.dart';
 export 'single_habit/single_habit_screen.dart';
 export 'single_habit/habit_stats_view.dart';
 export 'single_habit/step_screen.dart';
+export 'edit_habit/edit_habit_screen.dart';

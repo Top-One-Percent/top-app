@@ -26,19 +26,14 @@ class _HomeScreenState extends State<HomeScreen> {
         physics: const NeverScrollableScrollPhysics(),
         controller: pageController,
         children: const [
-          DailyOnePercentScreen(),
           GoalsScreen(),
           HabitsScreen(),
+          DailyOnePercentScreen(),
           MindsetScreen(),
         ],
       ),
       bottomNavigationBar: StylishBottomBar(
         items: [
-          BottomBarItem(
-            icon: const Icon(Icons.plus_one_sharp),
-            title: const Text('Daily'),
-            backgroundColor: Colors.white,
-          ),
           BottomBarItem(
             icon: const Icon(Icons.access_time),
             title: const Text('Goals'),
@@ -47,6 +42,11 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomBarItem(
             icon: const Icon(Icons.repeat),
             title: const Text('Habits'),
+            backgroundColor: Colors.white,
+          ),
+          BottomBarItem(
+            icon: const Icon(Icons.plus_one_sharp),
+            title: const Text('Daily'),
             backgroundColor: Colors.white,
           ),
           BottomBarItem(

@@ -9,7 +9,7 @@ part 'goal_state.dart';
 class GoalBloc extends Bloc<GoalEvent, GoalState> {
   final Box<Goal> goalsBox;
 
-  GoalBloc(this.goalsBox) : super(GoalState()) {
+  GoalBloc(this.goalsBox) : super(GoalState(isLoading: true)) {
     on<LoadGoals>(_loadGoals);
     on<AddGoal>(_addGoal);
     on<UpdateGoal>(_updateGoal);
@@ -19,7 +19,7 @@ class GoalBloc extends Bloc<GoalEvent, GoalState> {
 
   void _loadGoals(LoadGoals event, Emitter<GoalState> emit) {
     final goals = goalsBox.values.toList();
-    emit(state.copyWith(goals: goals));
+    emit(state.copyWith(goals: goals, isLoading: false));
   }
 
   void _addGoal(AddGoal event, Emitter<GoalState> emit) {

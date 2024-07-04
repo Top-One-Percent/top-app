@@ -30,6 +30,13 @@ class _SingleHabitScreenState extends State<SingleHabitScreen> {
             return Text(habit.name);
           },
         ),
+        actions: [
+          IconButton(
+              onPressed: () {
+                appRouter.push('/editHabit/${widget.habitId}');
+              },
+              icon: const Icon(Icons.edit))
+        ],
       ),
       body: BlocBuilder<HabitsBloc, HabitsState>(
         builder: (context, state) {
