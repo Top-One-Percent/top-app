@@ -29,7 +29,7 @@ class GoalProgressChart extends StatelessWidget {
           gridData: FlGridData(
             show: true,
             drawVerticalLine: false,
-            horizontalInterval: goal.target / 10,
+            horizontalInterval: goal.target > 10 ? goal.target / 10 : goal.target / goal.target,
             verticalInterval: 1,
             getDrawingHorizontalLine: (value) {
               return FlLine(
@@ -42,7 +42,7 @@ class GoalProgressChart extends StatelessWidget {
             leftTitles: AxisTitles(
               sideTitles: SideTitles(
                 showTitles: true,
-                interval: goal.target / 10,
+                interval: goal.target > 10 ? goal.target / 10 : goal.target / goal.target,
                 getTitlesWidget: (value, meta) {
                   const style = TextStyle(
                     fontWeight: FontWeight.bold,
