@@ -36,7 +36,13 @@ class _HabitsScreenState extends State<HabitsScreen> {
                 isFiltered = !isFiltered;
               });
             },
-            icon: Icon(Icons.list_rounded),
+            icon: Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: Icon(
+                isFiltered ? Icons.today_outlined : Icons.list_alt_outlined,
+                color: Colors.white,
+              ),
+            ),
           )
         ],
       ),
