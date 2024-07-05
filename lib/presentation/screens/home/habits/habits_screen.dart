@@ -72,7 +72,7 @@ class _HabitsScreenState extends State<HabitsScreen> {
                       ),
                     ),
                     child: HabitListTile(
-                      habitIndex: index,
+                      habitId: habit.id,
                     ),
                     onDismissed: (direction) {
                       context.read<HabitsBloc>().add(RemoveHabit(habitId: habit.id));
