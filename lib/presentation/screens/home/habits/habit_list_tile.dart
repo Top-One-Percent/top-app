@@ -14,7 +14,7 @@ class HabitListTile extends StatelessWidget {
     return BlocBuilder<HabitsBloc, HabitsState>(
       builder: (context, state) {
         var habit = state.habits.where((habit) => habit.id == habitId).first;
-        var habitIndex = habit.id;
+        final habitIndex = state.habits.indexWhere((h) => h == habit);
         final iconCodePoint = int.parse(habit.icon);
 
         return ListTile(

@@ -39,6 +39,9 @@ class Habit extends HiveObject {
   @HiveField(10)
   final double target;
 
+  @HiveField(11)
+  final List<HabitLog> dailyHabitLogs;
+
   Habit({
     String? id,
     required this.name,
@@ -51,6 +54,7 @@ class Habit extends HiveObject {
     required this.unitType,
     this.habitLogs = const [],
     required this.target,
+    this.dailyHabitLogs = const [],
   })  : colorValue = color.value,
         id = id ?? const Uuid().v4();
 }
