@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class UnitTypeSelectorWidget extends StatefulWidget {
+  final String? initialUnit;
   final ValueChanged<String> onUnitSelected;
 
-  const UnitTypeSelectorWidget({super.key, required this.onUnitSelected});
+  const UnitTypeSelectorWidget({super.key, required this.onUnitSelected, this.initialUnit});
 
   @override
   State<UnitTypeSelectorWidget> createState() => _UnitTypeSelectorWidgetState();
@@ -73,7 +74,7 @@ class _UnitTypeSelectorWidgetState extends State<UnitTypeSelectorWidget> {
               foregroundColor: Colors.white, // Text color
             ),
             child: Text(
-              _selectedUnit,
+              widget.initialUnit ?? _selectedUnit,
               style: const TextStyle(fontSize: 20.0),
             ),
           ),

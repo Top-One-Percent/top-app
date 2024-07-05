@@ -151,6 +151,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                 ),
                 const SizedBox(height: 20.0),
                 IconSelectorWidget(
+                  initialIcon: _selectedIcon,
                   onIconSelected: (icon) {
                     setState(() {
                       _selectedIcon = icon;
@@ -158,13 +159,17 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                   },
                 ),
                 const SizedBox(height: 20.0),
-                UnitTypeSelectorWidget(onUnitSelected: (unitType) {
-                  setState(() {
-                    _selectedUnitType = unitType;
-                  });
-                }),
+                UnitTypeSelectorWidget(
+                  initialUnit: habit.unitType,
+                  onUnitSelected: (unitType) {
+                    setState(() {
+                      _selectedUnitType = unitType;
+                    });
+                  },
+                ),
                 const SizedBox(height: 20.0),
                 StepsCreatorWidget(
+                  initialSteps: habit.steps,
                   onStepsChanged: (steps) {
                     setState(() {
                       _selectedSteps = steps;
@@ -228,7 +233,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                               Icons.check_box_rounded,
                             ),
                             SizedBox(width: 10.0),
-                            Text('Habit Added Successfully!',
+                            Text('Habit Edited Successfully!',
                                 style: TextStyle(color: Colors.white, fontSize: 16.0)),
                           ],
                         ),
@@ -238,7 +243,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
 
                     appRouter.pop();
                   },
-                  buttonText: 'Create Habit',
+                  buttonText: 'Edit Habit',
                 ),
                 const SizedBox(height: 50.0),
               ],

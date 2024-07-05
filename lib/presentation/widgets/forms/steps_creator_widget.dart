@@ -3,9 +3,10 @@ import 'package:flutter/widgets.dart';
 import 'package:top/presentation/widgets/widgets.dart';
 
 class StepsCreatorWidget extends StatefulWidget {
+  final List<String>? initialSteps;
   final Function(List<String>) onStepsChanged;
 
-  const StepsCreatorWidget({super.key, required this.onStepsChanged});
+  const StepsCreatorWidget({super.key, required this.onStepsChanged, this.initialSteps});
 
   @override
   _StepsCreatorWidgetState createState() => _StepsCreatorWidgetState();
@@ -62,6 +63,7 @@ class _StepsCreatorWidgetState extends State<StepsCreatorWidget> {
 
   @override
   Widget build(BuildContext context) {
+    steps = widget.initialSteps ?? steps;
     return Column(
       children: [
         for (int i = 0; i < steps.length; i++)

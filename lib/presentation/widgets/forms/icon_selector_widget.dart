@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class IconSelectorWidget extends StatefulWidget {
+  final String? initialIcon;
   final ValueChanged<String> onIconSelected;
 
-  const IconSelectorWidget({super.key, required this.onIconSelected});
+  const IconSelectorWidget({super.key, required this.onIconSelected, this.initialIcon});
 
   @override
   State<IconSelectorWidget> createState() => _IconSelectorWidgetState();
@@ -65,7 +66,9 @@ class _IconSelectorWidgetState extends State<IconSelectorWidget> {
             color: Colors.white,
             padding: const EdgeInsets.all(0),
             iconSize: 30.0,
-            icon: Icon(_selectedIcon),
+            icon: Icon(widget.initialIcon != null
+                ? IconData(int.parse(widget.initialIcon!), fontFamily: 'MaterialIcons')
+                : _selectedIcon),
             onPressed: _showIconPickerBottomSheet,
           ),
         ],

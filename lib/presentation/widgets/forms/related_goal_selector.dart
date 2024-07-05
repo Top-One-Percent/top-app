@@ -32,7 +32,7 @@ class RelatedGoalSelector extends StatelessWidget {
       );
 
       return DropdownButtonFormField<Goal?>(
-        value: selectedGoal,
+        value: selectedGoal?.name != '' ? selectedGoal : null,
         hint: const Text('Select Related Goal'),
         decoration: InputDecoration(
           filled: true,

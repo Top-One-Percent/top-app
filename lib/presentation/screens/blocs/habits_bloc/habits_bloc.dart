@@ -55,6 +55,9 @@ class HabitsBloc extends Bloc<HabitsEvent, HabitsState> {
       unitType: event.unitType,
       habitLogs: habitLogs,
       target: event.target,
+      remidersTime: event.remindersTime,
+      steps: event.steps,
+      linkedGoalId: event.linkedGoalId,
     );
 
     habitsBox.putAt(habitIndex, editedHabit);
