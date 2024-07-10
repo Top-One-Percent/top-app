@@ -38,10 +38,17 @@ void main() async {
           habit.dailyHabitLogs.last.date.day != DateTime.now().day) {
         final lastLog = habit.habitLogs.isNotEmpty ? habit.habitLogs.last.complianceRate : 0.0;
 
-        habit.habitLogs.add(HabitLog(complianceRate: 0, date: DateTime.now()));
+        bool hasYesterdayLog = habit.dailyHabitLogs.last.date.day ==
+            DateTime.now().subtract(const Duration(days: 1)).day;
 
-        habit.dailyHabitLogs.add(HabitLog(
-            date: DateTime.now().subtract(const Duration(hours: 24)), complianceRate: lastLog));
+        if (!hasYesterdayLog) {
+          habit.dailyHabitLogs.add(HabitLog(
+              date: DateTime.now().subtract(const Duration(hours: 24)), complianceRate: lastLog));
+        } else {
+          habit.dailyHabitLogs.add(HabitLog(date: DateTime.now(), complianceRate: lastLog));
+        }
+
+        habit.habitLogs.add(HabitLog(complianceRate: 0, date: DateTime.now()));
       }
     }
 
