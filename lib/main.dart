@@ -30,6 +30,28 @@ void main() async {
   final keepGoalsBox = await Hive.openBox<DevelopmentGoal>('keepGoalsBox');
   final habitsBox = await Hive.openBox<Habit>('habitsBox');
 
+  final habits = habitsBox.values.toList();
+
+  if (habits.isNotEmpty) {
+    for (Habit habit in habits) {
+      if (habit.dailyHabitLogs.isEmpty ||
+          habit.dailyHabitLogs.last.date.day != DateTime.now().day) {
+        final lastLog = habit.habitLogs.isNotEmpty ? habit.habitLogs.last.complianceRate : 0.0;
+
+        habit.habitLogs.add(HabitLog(complianceRate: 0, date: DateTime.now()));
+
+        habit.dailyHabitLogs.add(HabitLog(
+            date: DateTime.now().subtract(const Duration(hours: 24)), complianceRate: lastLog));
+      }
+    }
+
+    await habitsBox.clear();
+
+    for (Habit habit in habits) {
+      await habitsBox.add(habit);
+    }
+  }
+
   runApp(
     MultiBlocProvider(
       providers: [
