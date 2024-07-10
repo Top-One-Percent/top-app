@@ -34,12 +34,19 @@ void main() async {
 
   if (habits.isNotEmpty) {
     for (Habit habit in habits) {
+      DateTime now = DateTime.now();
+      DateTime yesterday = now.subtract(const Duration(days: 1));
+
       if (habit.dailyHabitLogs.isEmpty ||
           habit.dailyHabitLogs.last.date.day != DateTime.now().day) {
         final lastLog = habit.habitLogs.isNotEmpty ? habit.habitLogs.last.complianceRate : 0.0;
 
-        bool hasYesterdayLog = habit.dailyHabitLogs.last.date.day ==
-            DateTime.now().subtract(const Duration(days: 1)).day;
+        bool hasYesterdayLog = habit.dailyHabitLogs.any(
+          (log) =>
+              log.date.year == yesterday.year &&
+              log.date.month == yesterday.month &&
+              log.date.day == yesterday.day,
+        );
 
         if (!hasYesterdayLog) {
           habit.dailyHabitLogs.add(HabitLog(
