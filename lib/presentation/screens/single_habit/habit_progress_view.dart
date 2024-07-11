@@ -112,7 +112,7 @@ class RepsHabitProgressView extends StatelessWidget {
             'Update value',
             style: TextStyle(color: Colors.white),
           ),
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.grey[850],
           content: TextFormFieldWidget(
             controller: _valueController,
             keyboardType: TextInputType.number,
