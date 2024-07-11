@@ -1,16 +1,21 @@
-# top
+# TOP App
+The best Self-Development App
 
-A new Flutter project.
+## What is it for?
+* Tracking your long, mid and short-term goals.
+* Tracking your habits on a daily basis
+    * Link each habit to a specific goal
+    * Set up some steps you have to follow befor completing the habit itself
+* Have your TO-DO list
+* Have a list of things you want to improve
+* Have a list of things you want to keep and mantain
 
-## Getting Started
+## Developer
+This is a solo project, at least for now, made by me: @alejopadido
 
-This project is a starting point for a Flutter application.
+## Why I did it?
+It's something I'd really like to use on a daily basis to track my progress and improve a 1% everyday. 
 
-A few resources to get you started if this is your first Flutter project:
+I also think that it'd be of utility to a lot of people out there.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Last and not least, because I'm currently a 18-year-old Junior Software Developer with Flutter, and I see this project as an oportunity to practice, learn and improve my abilities.
