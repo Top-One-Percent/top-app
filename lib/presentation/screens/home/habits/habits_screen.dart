@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top/config/router/app_router.dart';
@@ -63,6 +66,8 @@ class _HabitsScreenState extends State<HabitsScreen> {
               child: ListView.builder(
                 itemCount: habits.length,
                 itemBuilder: (context, index) {
+                  Random random = Random();
+
                   final habit = habits[index];
                   return Dismissible(
                     key: ValueKey(habit.id),
@@ -77,8 +82,12 @@ class _HabitsScreenState extends State<HabitsScreen> {
                         size: 35.0,
                       ),
                     ),
-                    child: HabitListTile(
-                      habitId: habit.id,
+                    child: FadeInDown(
+                      from: 50,
+                      duration: Duration(milliseconds: 300 + random.nextInt(301)),
+                      child: HabitListTile(
+                        habitId: habit.id,
+                      ),
                     ),
                     onDismissed: (direction) {
                       context.read<HabitsBloc>().add(RemoveHabit(habitId: habit.id));
