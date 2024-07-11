@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top/presentation/screens/blocs/blocs.dart';
@@ -46,9 +47,13 @@ class DailyOnePercentScreen extends StatelessWidget {
                         size: 35.0,
                       ),
                     ),
-                    child: DailyGoalListTile(
-                      goal: goal,
-                      goalId: index,
+                    child: FadeInDown(
+                      from: 20,
+                      duration: const Duration(milliseconds: 200),
+                      child: DailyGoalListTile(
+                        goal: goal,
+                        goalId: index,
+                      ),
                     ),
                     onDismissed: (direction) {
                       context.read<DailyGoalsBloc>().add(RemoveDailyGoal(dailyGoalId: index));
@@ -86,8 +91,14 @@ class DailyOnePercentScreen extends StatelessWidget {
                         size: 35.0,
                       ),
                     ),
-                    child:
-                        DevGoalListTile(goal: goal, goalId: index, list: DevelopmentList.toImprove),
+                    child: FadeInDown(
+                        from: 20,
+                        duration: const Duration(milliseconds: 200),
+                        child: DevGoalListTile(
+                          goal: goal,
+                          goalId: index,
+                          list: DevelopmentList.toImprove,
+                        )),
                     onDismissed: (direction) {
                       context
                           .read<DevelopmentGoalsBloc>()
@@ -127,7 +138,15 @@ class DailyOnePercentScreen extends StatelessWidget {
                         size: 35.0,
                       ),
                     ),
-                    child: DevGoalListTile(goal: goal, goalId: index, list: DevelopmentList.toKeep),
+                    child: FadeInDown(
+                      from: 20,
+                      duration: const Duration(milliseconds: 200),
+                      child: DevGoalListTile(
+                        goal: goal,
+                        goalId: index,
+                        list: DevelopmentList.toKeep,
+                      ),
+                    ),
                     onDismissed: (direction) {
                       context
                           .read<DevelopmentGoalsBloc>()
@@ -195,41 +214,50 @@ class _TitleClearAndAdd extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          title,
-          style: const TextStyle(fontSize: 24.0),
-        ),
-        Row(
-          children: [
-            isAnyCompleted
-                ? IconButton(
-                    onPressed: () {
-                      clearGoalsList(list, context);
-                    },
-                    icon: const Icon(
-                      Icons.restart_alt,
-                      size: 30.0,
-                    ),
-                  )
-                : const SizedBox(),
-            const SizedBox(width: 10.0),
-            FloatingActionButton.small(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => NewDopGoalPopup(list: list),
-                );
-              },
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
-              child: const Icon(Icons.add),
-            ),
-          ],
-        ),
-      ],
+    return FadeInLeft(
+      from: 70,
+      duration: const Duration(milliseconds: 200),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(fontSize: 24.0),
+          ),
+          Row(
+            children: [
+              isAnyCompleted
+                  ? ElasticIn(
+                      child: Spin(
+                        spins: 1,
+                        child: IconButton(
+                          onPressed: () {
+                            clearGoalsList(list, context);
+                          },
+                          icon: const Icon(
+                            Icons.replay_outlined,
+                            size: 30.0,
+                          ),
+                        ),
+                      ),
+                    )
+                  : const SizedBox(),
+              const SizedBox(width: 10.0),
+              FloatingActionButton.small(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => NewDopGoalPopup(list: list),
+                  );
+                },
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.black,
+                child: const Icon(Icons.add),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
