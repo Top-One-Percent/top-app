@@ -10,6 +10,7 @@ class GoalsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text('Your Goals')),
       body: BlocBuilder<GoalBloc, GoalState>(
         builder: (context, state) {
           if (state.isLoading) {
