@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top/config/router/app_router.dart';
@@ -74,6 +77,7 @@ class _GoalsScreenState extends State<GoalsScreen> {
               child: ListView.builder(
                 itemCount: goals.length,
                 itemBuilder: (context, index) {
+                  Random random = Random();
                   final goal = goals[index];
                   return Dismissible(
                     key: ValueKey(goal),
@@ -88,9 +92,13 @@ class _GoalsScreenState extends State<GoalsScreen> {
                         size: 35.0,
                       ),
                     ),
-                    child: GoalCard(
-                      goal: goal,
-                      index: index,
+                    child: FadeInDown(
+                      from: 50,
+                      duration: Duration(milliseconds: 300 + random.nextInt(301)),
+                      child: GoalCard(
+                        goal: goal,
+                        index: index,
+                      ),
                     ),
                     onDismissed: (direction) {
                       context.read<GoalBloc>().add(RemoveGoal(index));
