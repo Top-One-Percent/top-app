@@ -1,16 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top/config/router/app_router.dart';
+import 'package:top/domain/models/models.dart';
 import 'package:top/presentation/screens/blocs/blocs.dart';
 import 'package:top/presentation/screens/home/goals/goal_card.dart';
 
-class GoalsScreen extends StatelessWidget {
+class GoalsScreen extends StatefulWidget {
   const GoalsScreen({super.key});
+
+  @override
+  State<GoalsScreen> createState() => _GoalsScreenState();
+}
+
+class _GoalsScreenState extends State<GoalsScreen> {
+  bool isFiltered = true;
+
+  bool isAchieved(Goal goal) {
+    if (goal.logs.isNotEmpty && goal.logs.last.currentValue >= goal.target) {
+      return true;
+    }
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Your Goals')),
+      appBar: AppBar(
+        title: Text(isFiltered ? 'Active Goals' : 'Achieved Goals'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                isFiltered = !isFiltered;
+              });
+            },
+            icon: Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: Icon(
+                isFiltered ? Icons.check_box_outline_blank_outlined : Icons.check_box_outlined,
+                color: Colors.white,
+              ),
+            ),
+          )
+        ],
+      ),
       body: BlocBuilder<GoalBloc, GoalState>(
         builder: (context, state) {
           if (state.isLoading) {
@@ -25,12 +58,23 @@ class GoalsScreen extends StatelessWidget {
               ),
             );
           } else {
+            final goals = isFiltered
+                ? state.goals
+                    .where(
+                      (goal) => !isAchieved(goal),
+                    )
+                    .toList()
+                : state.goals
+                    .where(
+                      (goal) => isAchieved(goal),
+                    )
+                    .toList();
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 15.0),
               child: ListView.builder(
-                itemCount: state.goals.length,
+                itemCount: goals.length,
                 itemBuilder: (context, index) {
-                  final goal = state.goals[index];
+                  final goal = goals[index];
                   return Dismissible(
                     key: ValueKey(goal),
                     direction: DismissDirection.endToStart,
