@@ -51,7 +51,10 @@ class HabitHistoricChart extends StatelessWidget {
                     ? Color(habit.colorValue)
                         .withOpacity((log.complianceRate / habit.target).clamp(0.0, 1.0))
                     : Colors.transparent,
-                border: Border.all(color: Colors.grey[850]!),
+                border: Border.all(
+                  color: log == null ? Colors.grey[850]! : Colors.white,
+                  width: log == null ? 1 : 2,
+                ),
               ),
               child: isComplete
                   ? isStreakDay
