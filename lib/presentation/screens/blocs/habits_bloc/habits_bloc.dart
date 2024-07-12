@@ -46,6 +46,7 @@ class HabitsBloc extends Bloc<HabitsEvent, HabitsState> {
         List<Habit>.from(state.habits).indexWhere((element) => element.id == event.habitId);
 
     final habitLogs = List<HabitLog>.from(state.habits[habitIndex].habitLogs);
+    final dailyHabitLogs = List<HabitLog>.from(state.habits[habitIndex].dailyHabitLogs);
 
     final editedHabit = Habit(
       name: event.name,
@@ -54,6 +55,7 @@ class HabitsBloc extends Bloc<HabitsEvent, HabitsState> {
       icon: event.icon,
       unitType: event.unitType,
       habitLogs: habitLogs,
+      dailyHabitLogs: dailyHabitLogs,
       target: event.target,
       remidersTime: event.remindersTime,
       steps: event.steps,
