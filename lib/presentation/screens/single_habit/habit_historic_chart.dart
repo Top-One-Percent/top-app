@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:top/domain/models/habit.dart';
 import 'package:top/presentation/screens/blocs/habits_bloc/habits_bloc.dart';
 
@@ -30,11 +31,11 @@ class _HabitHistoricChartState extends State<HabitHistoricChart> {
 
   OverlayEntry _createOverlayEntry(BuildContext context, String info) {
     final size = MediaQuery.of(context).size;
-    double bubbleWidth = 100;
+    double bubbleWidth = 150;
     double bubbleHeight = 60;
 
     double left = _bubblePosition.dx - bubbleWidth / 2;
-    double top = _bubblePosition.dy - bubbleHeight - 10;
+    double top = _bubblePosition.dy - bubbleHeight - 25;
 
     if (left < 0) left = 10;
     if (left + bubbleWidth > size.width) left = size.width - bubbleWidth - 10;
@@ -97,7 +98,7 @@ class _HabitHistoricChartState extends State<HabitHistoricChart> {
             return GestureDetector(
               onLongPressStart: (details) {
                 _showBubble(context, details.globalPosition,
-                    'Done: ${log?.complianceRate.round() ?? 0}\nTarget: ${habit.target.round()}');
+                    'Done: ${log?.complianceRate.round() ?? 0}\nTarget: ${habit.target.round()}\nDate: ${log != null ? DateFormat('dd-MM-yyy').format(log.date) : 'None'}');
               },
               onLongPressEnd: (details) {
                 _hideBubble();
