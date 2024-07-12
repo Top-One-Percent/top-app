@@ -50,12 +50,13 @@ class _HabitHistoricChartState extends State<HabitHistoricChart> {
             width: bubbleWidth,
             padding: const EdgeInsets.all(8.0),
             decoration: BoxDecoration(
-              color: Colors.blue,
+              color: Colors.white,
               borderRadius: BorderRadius.circular(10.0),
             ),
             child: Text(
               info,
-              style: TextStyle(color: Colors.white),
+              style:
+                  const TextStyle(color: Colors.black, fontSize: 16.0, fontWeight: FontWeight.bold),
             ),
           ),
         ),
@@ -102,7 +103,8 @@ class _HabitHistoricChartState extends State<HabitHistoricChart> {
 
             return GestureDetector(
               onLongPressStart: (details) {
-                _showBubble(context, details.globalPosition, 'Compliance Rate: ${log?.complianceRate ?? 0}\nTarget: ${habit.target}');
+                _showBubble(context, details.globalPosition,
+                    'Done: ${log?.complianceRate.round() ?? 0}\nTarget: ${habit.target.round()}');
               },
               onLongPressEnd: (details) {
                 _hideBubble();
