@@ -89,14 +89,7 @@ class _HabitHistoricChartState extends State<HabitHistoricChart> {
             DateTime startOfWeek = today.subtract(Duration(days: weekday - 1));
             DateTime targetDate = startOfWeek.add(Duration(days: index));
 
-            HabitLog? log;
-            try {
-              log = habit.dailyHabitLogs.firstWhere(
-                (log) => isSameDay(log.date, targetDate),
-              );
-            } catch (e) {
-              log = null;
-            }
+            HabitLog? log = _findMostRecentLog(habit.dailyHabitLogs, targetDate);
 
             bool isComplete = log != null && (log.complianceRate / habit.target) >= 1.0;
             bool isStreakDay = isComplete && streak >= 1;
@@ -171,6 +164,22 @@ class _HabitHistoricChartState extends State<HabitHistoricChart> {
       }
     }
     return streak;
+  }
+
+  HabitLog? _findMostRecentLog(List<HabitLog> logs, DateTime targetDate) {
+    // Filter logs to those on or before the target date
+    List<HabitLog> filteredLogs =
+        logs.where((log) => log.date.isBefore(targetDate.add(const Duration(days: 1)))).toList();
+    // Sort logs by date in descending order to get the most recent log first
+    filteredLogs.sort((a, b) => b.date.compareTo(a.date));
+    // Find the most recent log that matches the target date
+    try {
+      return filteredLogs.firstWhere(
+        (log) => isSameDay(log.date, targetDate),
+      );
+    } catch (e) {
+      return null;
+    }
   }
 
   bool isSameDay(DateTime date1, DateTime date2) {
