@@ -72,9 +72,18 @@ class HabitsBloc extends Bloc<HabitsEvent, HabitsState> {
   void _updateHabit(UpdateHabit event, Emitter<HabitsState> emit) {
     final updatedHabits = List<Habit>.from(state.habits);
 
+    final newHabitLog = HabitLog(date: DateTime.now(), complianceRate: event.newComplianceRate);
+
     final habit = updatedHabits[event.habitId];
-    final updatedHabitLogs = List<HabitLog>.from(habit.habitLogs)
-      ..add(HabitLog(date: DateTime.now(), complianceRate: event.newComplianceRate));
+    final updatedHabitLogs = List<HabitLog>.from(habit.habitLogs)..add(newHabitLog);
+
+    List<HabitLog> updatedDailyHabitLogs = [];
+    if (habit.dailyHabitLogs.isEmpty || habit.dailyHabitLogs.last.date.day != DateTime.now().day) {
+      updatedDailyHabitLogs.add(newHabitLog);
+    } else if (habit.dailyHabitLogs.last.date.day == DateTime.now().day) {
+      updatedDailyHabitLogs = List<HabitLog>.from(habit.dailyHabitLogs)..removeLast();
+      updatedDailyHabitLogs.add(newHabitLog);
+    }
 
     final updatedHabit = Habit(
       name: habit.name,
@@ -83,6 +92,7 @@ class HabitsBloc extends Bloc<HabitsEvent, HabitsState> {
       icon: habit.icon,
       unitType: habit.unitType,
       habitLogs: updatedHabitLogs,
+      dailyHabitLogs: updatedDailyHabitLogs,
       target: habit.target,
       steps: habit.steps,
       linkedGoalId: habit.linkedGoalId,
