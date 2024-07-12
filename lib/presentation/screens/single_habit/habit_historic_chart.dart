@@ -157,7 +157,7 @@ class _HabitHistoricChartState extends State<HabitHistoricChart> {
     int streak = 0;
     for (int i = dailyHabitLogs.length - 1; i >= 0; i--) {
       HabitLog log = dailyHabitLogs[i];
-      int dayOfWeek = log.date.weekday % 7; // Convert to 0 (Monday) - 6 (Sunday)
+      int dayOfWeek = log.date.weekday - 1; // Convert to 0 (Monday) - 6 (Sunday)
 
       if (!frequency.contains(dayOfWeek)) {
         // If the habit is not supposed to be done on this day, skip it
