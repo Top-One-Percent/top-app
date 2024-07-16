@@ -21,7 +21,7 @@ class _HabitHistoricChartState extends State<HabitHistoricChart> {
   void _showBubble(BuildContext context, Offset position, String info) {
     _bubblePosition = position;
     _overlayEntry = _createOverlayEntry(context, info);
-    Overlay.of(context)?.insert(_overlayEntry!);
+    Overlay.of(context).insert(_overlayEntry!);
   }
 
   void _hideBubble() {
