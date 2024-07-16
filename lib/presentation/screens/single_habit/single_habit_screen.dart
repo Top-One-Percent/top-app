@@ -59,7 +59,7 @@ class _SingleHabitScreenState extends State<SingleHabitScreen> {
                         controller: _controller,
                         children: [
                           HabitProgressView(habitId: widget.habitId),
-                          const HabitStatsView(),
+                          HabitStatsView(habitId: widget.habitId),
                         ],
                       ),
               ),
