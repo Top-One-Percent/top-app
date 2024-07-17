@@ -52,9 +52,10 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-flutter_icons:
+flutter_launcher_icons:
   android: true
   ios: true
+  remove_alpha_ios: true
   image_path: "assets/top-icon.png"
 
 # For information on the generic Dart part of this file, see the

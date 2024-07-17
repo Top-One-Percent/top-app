@@ -20,7 +20,8 @@ class HabitListTile extends StatelessWidget {
         return ListTile(
           title: Text(habit.name, style: const TextStyle(color: Colors.white, fontSize: 20.0)),
           leading: Icon(
-            IconData(iconCodePoint, fontFamily: 'MaterialIcons'),
+            // IconData(iconCodePoint, fontFamily: 'MaterialIcons'),
+            Icons.check_box,
             color: Color(habit.colorValue),
             size: 30.0,
           ),

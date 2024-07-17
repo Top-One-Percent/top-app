@@ -67,7 +67,8 @@ class _IconSelectorWidgetState extends State<IconSelectorWidget> {
             padding: const EdgeInsets.all(0),
             iconSize: 30.0,
             icon: Icon(widget.initialIcon != null
-                ? IconData(int.parse(widget.initialIcon!), fontFamily: 'MaterialIcons')
+                // ? IconData(int.parse(widget.initialIcon!), fontFamily: 'MaterialIcons')
+                ? Icons.check_box
                 : _selectedIcon),
             onPressed: _showIconPickerBottomSheet,
           ),
