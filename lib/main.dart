@@ -48,7 +48,7 @@ void main() async {
               log.date.day == yesterday.day,
         );
 
-        if (!hasYesterdayLog) {
+        if (!hasYesterdayLog && habit.habitLogs.isNotEmpty) {
           if (habit.habitLogs.last.date.day != now.day) {
             habit.dailyHabitLogs.add(
                 HabitLog(date: now.subtract(const Duration(hours: 24)), complianceRate: lastLog));
