@@ -11,23 +11,23 @@ class MindsetScreen extends StatelessWidget {
       body: Center(
         child: TypeWriter.text(
           '''
-<h1> Greetings, Achiever! :D </h1>
+Greetings, Achiever!
 
-<p> You've unlocked a secret area! :0 </p>
+You've unlocked a secret area
 
-<p> Here will be the "Image" hub </p>
+Here will be the "Image" hub
 
-<p> I hope you're working hard! </p>
+I hope you're working hard!
 
-<p> Cool stuff coming soon! </p>
+Cool stuff coming soon!
 
-- Alejo ;)                                          
+- Alejo P                                                 
         ''',
           duration: const Duration(milliseconds: 50),
           repeat: true,
           overflow: TextOverflow.visible,
           softWrap: false,
-          style: TextStyle(fontSize: 16.0),
+          style: const TextStyle(fontSize: 16.0),
         ),
       ),
     );
