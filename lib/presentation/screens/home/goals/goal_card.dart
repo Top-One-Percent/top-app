@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top/config/router/app_router.dart';
 import 'package:top/domain/models/goal.dart';
+import 'package:top/presentation/screens/blocs/blocs.dart';
 
 class GoalCard extends StatelessWidget {
-  final int index;
-
   const GoalCard({
     super.key,
     required this.goal,
-    required this.index,
   });
 
   final Goal goal;
 
   @override
   Widget build(BuildContext context) {
+    final goalIndex = context.read<GoalBloc>().state.goals.indexWhere((g) => g.id == goal.id);
     return ListTile(
       title: Text(goal.name, style: const TextStyle(color: Colors.white, fontSize: 20.0)),
       trailing: Text(
@@ -27,7 +27,7 @@ class GoalCard extends StatelessWidget {
         valueColor: AlwaysStoppedAnimation(goal.color),
       ),
       onTap: () {
-        appRouter.push('/goal/$index');
+        appRouter.push('/goal/$goalIndex');
       },
     );
   }
