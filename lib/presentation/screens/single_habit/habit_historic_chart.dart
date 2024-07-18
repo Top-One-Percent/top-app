@@ -124,12 +124,14 @@ class _HabitHistoricChartState extends State<HabitHistoricChart> {
                           .withOpacity((log.complianceRate / habit.target).clamp(0.0, 1.0))
                       : Colors.transparent,
                   border: Border.all(
-                    color: log == null ? Colors.grey[850]! : Colors.white,
+                    color: log == null || !isSameDay(log.date, DateTime.now())
+                        ? Colors.grey[850]!
+                        : Colors.white,
                     width: log == null ? 1 : 2,
                   ),
                 ),
                 child: isComplete
-                    ? isStreakDay
+                    ? isStreakDay && isSameDay(log.date, DateTime.now())
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -175,7 +177,7 @@ class _HabitHistoricChartState extends State<HabitHistoricChart> {
       if ((log.complianceRate / target) >= 1.0) {
         streak++;
       } else {
-        streak = 0; // Reset streak if there's a break
+        streak = 1; // Reset streak if there's a break
       }
     }
     return streak;
