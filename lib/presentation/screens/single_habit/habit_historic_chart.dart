@@ -97,8 +97,22 @@ class _HabitHistoricChartState extends State<HabitHistoricChart> {
 
             return GestureDetector(
               onLongPressStart: (details) {
+                double? logComplianceRate;
+                double habitTarget;
+
+                if (habit.unitType == 'min') {
+                  logComplianceRate = log != null ? log.complianceRate / 60 : 0;
+                  habitTarget = habit.target / 60;
+                } else if (habit.unitType == 'hr') {
+                  logComplianceRate = log != null ? log.complianceRate / 3600 : 0;
+                  habitTarget = habit.target / 3600;
+                } else {
+                  logComplianceRate = log != null ? log.complianceRate : 0;
+                  habitTarget = habit.target;
+                }
+
                 _showBubble(context, details.globalPosition,
-                    'Done: ${log?.complianceRate.round() ?? 0}\nTarget: ${habit.target.round()}\nDate: ${log != null ? DateFormat('dd-MM-yyy').format(log.date) : 'None'}');
+                    'Done: ${logComplianceRate ?? 0}\nTarget: $habitTarget\nDate: ${log != null ? DateFormat('dd-MM-yyy').format(log.date) : 'None'}');
               },
               onLongPressEnd: (details) {
                 _hideBubble();
