@@ -97,7 +97,6 @@ class _GoalsScreenState extends State<GoalsScreen> {
                       duration: Duration(milliseconds: 300 + random.nextInt(301)),
                       child: GoalCard(
                         goal: goal,
-                        index: index,
                       ),
                     ),
                     onDismissed: (direction) {
