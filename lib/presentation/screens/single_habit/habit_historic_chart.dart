@@ -4,18 +4,14 @@ import 'package:intl/intl.dart';
 import 'package:top/domain/models/habit.dart';
 import 'package:top/presentation/screens/blocs/habits_bloc/habits_bloc.dart';
 
-class HabitHistoricChart extends StatefulWidget {
-  final Duration viewDuration;
+class HabitHistoricChart extends StatelessWidget {
   final int habitId;
+  final int week;
 
-  const HabitHistoricChart({super.key, required this.viewDuration, required this.habitId});
+  HabitHistoricChart({super.key, required this.habitId, required this.week});
 
-  @override
-  _HabitHistoricChartState createState() => _HabitHistoricChartState();
-}
-
-class _HabitHistoricChartState extends State<HabitHistoricChart> {
   OverlayEntry? _overlayEntry;
+
   Offset _bubblePosition = Offset.zero;
 
   void _showBubble(BuildContext context, Offset position, String info) {
@@ -67,10 +63,10 @@ class _HabitHistoricChartState extends State<HabitHistoricChart> {
 
   @override
   Widget build(BuildContext context) {
-    int daysCount = _getDaysCount(widget.viewDuration);
+    int daysCount = 7;
     return BlocBuilder<HabitsBloc, HabitsState>(
       builder: (context, state) {
-        final Habit habit = state.habits[widget.habitId];
+        final Habit habit = state.habits[habitId];
 
         // Calculate streak using daily habit logs and frequency
         int streak = calculateStreak(habit.dailyHabitLogs, habit.frequency, habit.target);
@@ -87,7 +83,7 @@ class _HabitHistoricChartState extends State<HabitHistoricChart> {
             // Align targetDate with the start of the week (Monday)
             DateTime today = DateTime.now();
             int weekday = today.weekday;
-            DateTime startOfWeek = today.subtract(Duration(days: weekday - 1));
+            DateTime startOfWeek = today.subtract(Duration(days: weekday - 1 - 7 * week));
             DateTime targetDate = startOfWeek.add(Duration(days: index));
 
             HabitLog? log = _findMostRecentLog(habit.dailyHabitLogs, targetDate);
@@ -112,7 +108,7 @@ class _HabitHistoricChartState extends State<HabitHistoricChart> {
                 }
 
                 _showBubble(context, details.globalPosition,
-                    'Done: ${logComplianceRate ?? 0}\nTarget: $habitTarget\nDate: ${log != null ? DateFormat('dd-MM-yyy').format(log.date) : 'None'}');
+                    'Done: $logComplianceRate\nTarget: $habitTarget\nDate: ${log != null ? DateFormat('dd-MM-yyy').format(log.date) : 'None'}');
               },
               onLongPressEnd: (details) {
                 _hideBubble();
@@ -151,16 +147,6 @@ class _HabitHistoricChartState extends State<HabitHistoricChart> {
         );
       },
     );
-  }
-
-  int _getDaysCount(Duration duration) {
-    if (duration == const Duration(days: 7)) {
-      return 7;
-    } else if (duration == const Duration(days: 30)) {
-      return 31;
-    } else {
-      return 365;
-    }
   }
 
   int calculateStreak(List<HabitLog> dailyHabitLogs, List<int> frequency, double target) {

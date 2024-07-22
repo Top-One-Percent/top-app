@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
 import 'package:top/config/router/app_router.dart';
 import 'package:top/domain/models/habit.dart';
 import 'package:top/presentation/screens/blocs/blocs.dart';
@@ -25,6 +26,49 @@ class _HabitsScreenState extends State<HabitsScreen> {
       return true;
     }
     return false;
+  }
+
+  void resetHabits(List<Habit> habits) async {
+    final habitsBox = await Hive.openBox<Habit>('habitsBox');
+
+    if (habits.isNotEmpty) {
+      for (Habit habit in habits) {
+        DateTime now = DateTime.now();
+        DateTime yesterday = now.subtract(const Duration(days: 1));
+
+        if (habit.dailyHabitLogs.isEmpty ||
+            habit.dailyHabitLogs.last.date.day != DateTime.now().day) {
+          final lastLog =
+              habit.habitLogs.isNotEmpty && habit.habitLogs.last.date.day == DateTime.now().day
+                  ? habit.habitLogs.last.complianceRate
+                  : 0.0;
+
+          bool hasYesterdayLog = habit.dailyHabitLogs.any(
+            (log) =>
+                log.date.year == yesterday.year &&
+                log.date.month == yesterday.month &&
+                log.date.day == yesterday.day,
+          );
+
+          if (!hasYesterdayLog && habit.habitLogs.isNotEmpty) {
+            if (habit.habitLogs.last.date.day != now.day) {
+              habit.dailyHabitLogs.add(
+                  HabitLog(date: now.subtract(const Duration(hours: 24)), complianceRate: lastLog));
+            }
+          } else {
+            habit.dailyHabitLogs.add(HabitLog(date: DateTime.now(), complianceRate: lastLog));
+          }
+
+          habit.habitLogs.add(HabitLog(complianceRate: 0, date: DateTime.now()));
+        }
+      }
+
+      await habitsBox.clear();
+
+      for (Habit habit in habits) {
+        await habitsBox.add(habit);
+      }
+    }
   }
 
   @override
@@ -61,6 +105,9 @@ class _HabitsScreenState extends State<HabitsScreen> {
           } else {
             //? FILTER HABITS LIST
             final habits = isFiltered ? state.habits.where(doToday).toList() : state.habits;
+
+            resetHabits(habits);
+
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 15.0),
               child: ListView.builder(

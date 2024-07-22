@@ -1,38 +1,76 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:top/presentation/screens/single_habit/habit_historic_chart.dart';
 
-class HabitStatsView extends StatelessWidget {
+class HabitStatsView extends StatefulWidget {
   final int habitId;
   const HabitStatsView({super.key, required this.habitId});
 
-  Widget buildHabitChart(String title, int days) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          title,
-          style: TextStyle(fontSize: 22.0),
-        ),
-        SizedBox(
-          height: days != 365 ? 150 : 1100,
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: HabitHistoricChart(viewDuration: Duration(days: days), habitId: habitId),
-          ),
-        )
-      ],
-    );
+  @override
+  State<HabitStatsView> createState() => _HabitStatsViewState();
+}
+
+class _HabitStatsViewState extends State<HabitStatsView> {
+  int weekNum = 0;
+
+  String getWeekRange(DateTime dateNow) {
+    final today = dateNow.weekday;
+    final mondayDate = dateNow.subtract(Duration(days: today - 1));
+    final sundayDate = mondayDate.add(Duration(days: 6));
+
+    final mondayDateFormatted = DateFormat('dd MMM').format(mondayDate);
+    final sundayDateFormatted = DateFormat('dd MMM').format(sundayDate);
+
+    return '$mondayDateFormatted - $sundayDateFormatted';
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView(
-      padding: const EdgeInsets.symmetric(vertical: 25.0),
+        body: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        buildHabitChart('This Week', 7),
-        buildHabitChart('This Month', 30),
-        buildHabitChart('This Year', 365),
+        const SizedBox(height: 20.0),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  weekNum--;
+                });
+              },
+              icon: const Icon(Icons.arrow_back_ios, size: 20.0),
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  weekNum = 0;
+                });
+              },
+              child: Text(
+                weekNum == 0
+                    ? 'This Week'
+                    : getWeekRange(DateTime.now().subtract(Duration(days: 7 * weekNum))),
+                style: TextStyle(fontSize: 22.0),
+              ),
+            ),
+            IconButton(
+              onPressed: weekNum < 0
+                  ? () {
+                      setState(() {
+                        weekNum++;
+                      });
+                    }
+                  : null,
+              icon: const Icon(Icons.arrow_forward_ios, size: 20.0),
+            ),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.all(25.0),
+          child: HabitHistoricChart(habitId: widget.habitId, week: weekNum),
+        ),
       ],
     ));
   }
