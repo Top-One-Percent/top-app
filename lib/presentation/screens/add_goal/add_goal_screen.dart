@@ -36,7 +36,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
                 labelText: 'Goal Name',
                 hintText: 'Ex: 100kg in bench press',
                 icon: Icons.edit,
-                keyboardType: TextInputType.name,
+                keyboardType: TextInputType.text,
               ),
               const SizedBox(height: 20.0),
               TextFormFieldWidget(
