@@ -23,7 +23,7 @@ class NewDopGoalPopup extends StatelessWidget {
         labelText: 'New Goal Name',
         hintText: 'Enter the goal name',
         icon: Icons.add,
-        keyboardType: TextInputType.name,
+        keyboardType: TextInputType.text,
       ),
       actions: [
         TextButton(

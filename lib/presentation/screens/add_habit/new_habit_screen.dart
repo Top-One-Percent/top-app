@@ -49,7 +49,7 @@ class _NewHabitScreenState extends State<NewHabitScreen> {
                   labelText: 'Habit Name',
                   hintText: 'Ex: Do 100 push-ups',
                   icon: Icons.edit,
-                  keyboardType: TextInputType.name,
+                  keyboardType: TextInputType.text,
                 ),
                 const SizedBox(height: 20.0),
                 TextFormFieldWidget(
