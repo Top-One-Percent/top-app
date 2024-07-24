@@ -49,7 +49,7 @@ class DailyOnePercentScreen extends StatelessWidget {
                     ),
                     child: FadeInDown(
                       from: 20,
-                      duration: const Duration(milliseconds: 200),
+                      duration: const Duration(milliseconds: 300),
                       child: DailyGoalListTile(
                         goal: goal,
                         goalId: index,
@@ -93,7 +93,7 @@ class DailyOnePercentScreen extends StatelessWidget {
                     ),
                     child: FadeInDown(
                         from: 20,
-                        duration: const Duration(milliseconds: 200),
+                        duration: const Duration(milliseconds: 300),
                         child: DevGoalListTile(
                           goal: goal,
                           goalId: index,
@@ -140,7 +140,7 @@ class DailyOnePercentScreen extends StatelessWidget {
                     ),
                     child: FadeInDown(
                       from: 20,
-                      duration: const Duration(milliseconds: 200),
+                      duration: const Duration(milliseconds: 300),
                       child: DevGoalListTile(
                         goal: goal,
                         goalId: index,
