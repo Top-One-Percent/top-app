@@ -20,6 +20,7 @@ class TextFormFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      textCapitalization: TextCapitalization.sentences,
       keyboardType: keyboardType,
       controller: controller,
       style: const TextStyle(color: Colors.white),
