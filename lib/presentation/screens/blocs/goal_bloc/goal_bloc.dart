@@ -71,9 +71,11 @@ class GoalBloc extends Bloc<GoalEvent, GoalState> {
   void _removeGoal(RemoveGoal event, Emitter<GoalState> emit) {
     final updatedGoals = List<Goal>.from(state.goals);
 
-    updatedGoals.removeAt(event.id);
+    final goalIndex = updatedGoals.indexWhere((goal) => goal.id == event.id);
 
-    goalsBox.deleteAt(event.id);
+    updatedGoals.removeAt(goalIndex);
+
+    goalsBox.deleteAt(goalIndex);
 
     emit(state.copyWith(goals: updatedGoals));
   }

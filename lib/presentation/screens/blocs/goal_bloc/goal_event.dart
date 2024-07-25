@@ -31,7 +31,7 @@ class UpdateGoal extends GoalEvent {
 }
 
 class RemoveGoal extends GoalEvent {
-  final int id;
+  final String id;
 
   RemoveGoal(this.id);
 }

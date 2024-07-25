@@ -100,7 +100,7 @@ class _GoalsScreenState extends State<GoalsScreen> {
                       ),
                     ),
                     onDismissed: (direction) {
-                      context.read<GoalBloc>().add(RemoveGoal(index));
+                      context.read<GoalBloc>().add(RemoveGoal(goal.id));
                     },
                   );
                 },
