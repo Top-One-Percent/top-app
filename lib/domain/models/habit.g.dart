@@ -26,9 +26,9 @@ class HabitAdapter extends TypeAdapter<Habit> {
       color: Color(fields[6]),
       icon: fields[7] as String,
       unitType: fields[8] as String,
-      habitLogs: (fields[9] as List).cast<HabitLog>(),
+      habitLogs: (fields[9] as List?)?.cast<HabitLog>(),
       target: fields[10] as double,
-      dailyHabitLogs: (fields[11] as List).cast<HabitLog>(),
+      dailyHabitLogs: (fields[11] as List?)?.cast<HabitLog>(),
     );
   }
 

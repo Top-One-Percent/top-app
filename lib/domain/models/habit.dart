@@ -52,11 +52,13 @@ class Habit extends HiveObject {
     required Color color,
     required this.icon,
     required this.unitType,
-    this.habitLogs = const [],
+    List<HabitLog>? habitLogs,
     required this.target,
-    this.dailyHabitLogs = const [],
+    List<HabitLog>? dailyHabitLogs,
   })  : colorValue = color.value,
-        id = id ?? const Uuid().v4();
+        id = id ?? const Uuid().v4(),
+        habitLogs = habitLogs ?? [],
+        dailyHabitLogs = dailyHabitLogs ?? [];
 }
 
 @HiveType(typeId: 5)
