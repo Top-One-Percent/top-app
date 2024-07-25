@@ -164,6 +164,7 @@ class HabitHistoricChart extends StatelessWidget {
         streak++;
       } else {
         streak = 1; // Reset streak if there's a break
+        return streak;
       }
     }
     return streak;
