@@ -7,8 +7,10 @@ import 'package:top/presentation/widgets/widgets.dart';
 class EditDailyGoalPopup extends StatelessWidget {
   final String currentValue;
   final int goalId;
+  final DevelopmentList? list;
 
-  const EditDailyGoalPopup({super.key, required this.currentValue, required this.goalId});
+  const EditDailyGoalPopup(
+      {super.key, required this.currentValue, required this.goalId, this.list});
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +38,22 @@ class EditDailyGoalPopup extends StatelessWidget {
         WhiteFilledButtonWidget(
           onPressed: () {
             if (_controller.text.isNotEmpty) {
-              context.read<DailyGoalsBloc>().add(EditDailyGoal(
-                    dailyGoalId: goalId,
-                    newName: _controller.text,
-                  ));
+              if (list == null) {
+                context.read<DailyGoalsBloc>().add(
+                      EditDailyGoal(
+                        dailyGoalId: goalId,
+                        newName: _controller.text,
+                      ),
+                    );
+              } else {
+                context.read<DevelopmentGoalsBloc>().add(
+                      EditDevGoal(
+                        list: list!,
+                        devGoalId: goalId,
+                        newName: _controller.text,
+                      ),
+                    );
+              }
               appRouter.pop();
             } else {
               ScaffoldMessenger.of(context).showSnackBar(

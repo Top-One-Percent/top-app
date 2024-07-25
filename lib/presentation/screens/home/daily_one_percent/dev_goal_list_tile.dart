@@ -24,6 +24,7 @@ class DevGoalListTile extends StatelessWidget {
                 builder: (context) => EditDailyGoalPopup(
                   currentValue: goal.name,
                   goalId: goalId,
+                  list: list,
                 ),
               );
             },
