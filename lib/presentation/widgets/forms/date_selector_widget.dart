@@ -59,7 +59,7 @@ class _DateSelectorWidgetState extends State<DateSelectorWidget> {
       style: const TextStyle(color: Colors.white),
       decoration: InputDecoration(
         labelText: widget.labelText,
-        labelStyle: TextStyle(color: AppColors.grey),
+        labelStyle: const TextStyle(color: AppColors.grey),
         hintText: widget.hintText,
         hintStyle: TextStyle(color: Colors.grey[600]),
         filled: true,

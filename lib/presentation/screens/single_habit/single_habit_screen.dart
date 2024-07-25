@@ -19,7 +19,7 @@ class _SingleHabitScreenState extends State<SingleHabitScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _controller = PageController();
+    final controller = PageController();
 
     return Scaffold(
       appBar: AppBar(
@@ -56,7 +56,7 @@ class _SingleHabitScreenState extends State<SingleHabitScreen> {
                         },
                       )
                     : PageView(
-                        controller: _controller,
+                        controller: controller,
                         children: [
                           HabitProgressView(habitId: widget.habitId),
                           HabitStatsView(habitId: widget.habitId),
@@ -66,7 +66,7 @@ class _SingleHabitScreenState extends State<SingleHabitScreen> {
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: SmoothPageIndicator(
-                  controller: _controller,
+                  controller: controller,
                   count: 2,
                   effect: const ExpandingDotsEffect(activeDotColor: Colors.white),
                 ),

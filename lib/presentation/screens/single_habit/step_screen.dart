@@ -7,11 +7,11 @@ class StepScreen extends StatefulWidget {
   final VoidCallback onStepsFinished;
 
   const StepScreen({
-    Key? key,
+    super.key,
     required this.steps,
     required this.habitColor,
     required this.onStepsFinished,
-  }) : super(key: key);
+  });
 
   @override
   _StepScreenState createState() => _StepScreenState();

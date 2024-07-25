@@ -8,7 +8,7 @@ class CircularButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 60.0, // Button width
       height: 60.0, // Button height
       child: IconButton.filled(
@@ -19,7 +19,7 @@ class CircularButton extends StatelessWidget {
         ),
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.white,
-          textStyle: TextStyle(
+          textStyle: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),

@@ -9,7 +9,7 @@ import '../blocs/blocs.dart';
 
 class EditHabitScreen extends StatefulWidget {
   final int habitId;
-  EditHabitScreen({super.key, required this.habitId});
+  const EditHabitScreen({super.key, required this.habitId});
 
   @override
   State<EditHabitScreen> createState() => _EditHabitScreenState();

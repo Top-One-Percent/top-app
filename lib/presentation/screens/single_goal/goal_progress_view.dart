@@ -7,7 +7,7 @@ import 'package:top/presentation/widgets/widgets.dart';
 class GoalProgressView extends StatelessWidget {
   final int goalId;
 
-  const GoalProgressView({Key? key, required this.goalId}) : super(key: key);
+  const GoalProgressView({super.key, required this.goalId});
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +76,7 @@ class GoalProgressView extends StatelessWidget {
   }
 
   void _showUpdateValueDialog(BuildContext context, int goalId, int currentValue) {
-    final TextEditingController _valueController = TextEditingController(text: '$currentValue');
+    final TextEditingController valueController = TextEditingController(text: '$currentValue');
 
     showDialog(
       context: context,
@@ -88,7 +88,7 @@ class GoalProgressView extends StatelessWidget {
           ),
           backgroundColor: Colors.grey[850],
           content: TextFormFieldWidget(
-            controller: _valueController,
+            controller: valueController,
             keyboardType: TextInputType.number,
             labelText: '',
             hintText: '',
@@ -103,7 +103,7 @@ class GoalProgressView extends StatelessWidget {
             ),
             WhiteFilledButtonWidget(
               onPressed: () {
-                final newValue = int.tryParse(_valueController.text);
+                final newValue = int.tryParse(valueController.text);
                 if (newValue != null) {
                   context.read<GoalBloc>().add(UpdateGoal(goalId, newValue));
                   Navigator.of(context).pop();

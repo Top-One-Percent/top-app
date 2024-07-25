@@ -102,7 +102,7 @@ class RepsHabitProgressView extends StatelessWidget {
   }
 
   void _showUpdateValueDialog(BuildContext context, int habitId, double currentValue, Habit habit) {
-    final TextEditingController _valueController = TextEditingController(text: '$currentValue');
+    final TextEditingController valueController = TextEditingController(text: '$currentValue');
 
     showDialog(
       context: context,
@@ -114,7 +114,7 @@ class RepsHabitProgressView extends StatelessWidget {
           ),
           backgroundColor: Colors.grey[850],
           content: TextFormFieldWidget(
-            controller: _valueController,
+            controller: valueController,
             keyboardType: TextInputType.number,
             labelText: '',
             hintText: '',
@@ -129,7 +129,7 @@ class RepsHabitProgressView extends StatelessWidget {
             ),
             WhiteFilledButtonWidget(
               onPressed: () {
-                final newValue = double.tryParse(_valueController.text);
+                final newValue = double.tryParse(valueController.text);
                 if (newValue != null) {
                   context
                       .read<HabitsBloc>()

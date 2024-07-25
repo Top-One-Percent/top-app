@@ -11,8 +11,8 @@ class WhiteFilledButtonWidget extends StatelessWidget {
     return FilledButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: MaterialStateColor.resolveWith((states) => Colors.white),
-        foregroundColor: MaterialStateColor.resolveWith((states) => Colors.black),
+        backgroundColor: WidgetStateColor.resolveWith((states) => Colors.white),
+        foregroundColor: WidgetStateColor.resolveWith((states) => Colors.black),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
         ),

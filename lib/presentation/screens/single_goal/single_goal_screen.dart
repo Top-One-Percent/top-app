@@ -13,7 +13,7 @@ class SingleGoalScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _controller = PageController();
+    final controller = PageController();
 
     return Scaffold(
       appBar: AppBar(
@@ -35,7 +35,7 @@ class SingleGoalScreen extends StatelessWidget {
         children: [
           Expanded(
             child: PageView(
-              controller: _controller,
+              controller: controller,
               children: [
                 GoalProgressView(goalId: goalId),
                 GoalStatsView(goalId: goalId), // Placeholder for the second page
@@ -45,7 +45,7 @@ class SingleGoalScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: SmoothPageIndicator(
-              controller: _controller,
+              controller: controller,
               count: 2,
               effect: const ExpandingDotsEffect(activeDotColor: Colors.white),
             ),

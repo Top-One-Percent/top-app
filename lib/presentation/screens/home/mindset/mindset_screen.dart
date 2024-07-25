@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:top/presentation/widgets/widgets.dart';
 import 'package:typewritertext/typewritertext.dart';
 
 class MindsetScreen extends StatelessWidget {

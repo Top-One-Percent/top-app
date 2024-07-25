@@ -11,7 +11,7 @@ class NewDopGoalPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _controller = TextEditingController();
+    final TextEditingController controller = TextEditingController();
     return AlertDialog(
       backgroundColor: Colors.grey[850],
       title: const Text(
@@ -19,7 +19,7 @@ class NewDopGoalPopup extends StatelessWidget {
         style: TextStyle(color: Colors.white),
       ),
       content: TextFormFieldWidget(
-        controller: _controller,
+        controller: controller,
         labelText: 'New Goal Name',
         hintText: 'Enter the goal name',
         icon: Icons.add,
@@ -34,13 +34,13 @@ class NewDopGoalPopup extends StatelessWidget {
         ),
         WhiteFilledButtonWidget(
           onPressed: () {
-            if (_controller.text.isNotEmpty) {
+            if (controller.text.isNotEmpty) {
               if (list == null) {
-                context.read<DailyGoalsBloc>().add(AddDailyGoal(dailyGoalName: _controller.text));
+                context.read<DailyGoalsBloc>().add(AddDailyGoal(dailyGoalName: controller.text));
               } else {
                 context
                     .read<DevelopmentGoalsBloc>()
-                    .add(AddDevGoal(list: list!, devGoalName: _controller.text));
+                    .add(AddDevGoal(list: list!, devGoalName: controller.text));
               }
               appRouter.pop();
             } else {

@@ -14,7 +14,7 @@ class EditDailyGoalPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _controller = TextEditingController(text: currentValue);
+    final TextEditingController controller = TextEditingController(text: currentValue);
     return AlertDialog(
       backgroundColor: Colors.grey[850],
       title: const Text(
@@ -22,7 +22,7 @@ class EditDailyGoalPopup extends StatelessWidget {
         style: TextStyle(color: Colors.white),
       ),
       content: TextFormFieldWidget(
-        controller: _controller,
+        controller: controller,
         labelText: '',
         hintText: 'Enter a new name',
         icon: Icons.edit,
@@ -37,12 +37,12 @@ class EditDailyGoalPopup extends StatelessWidget {
         ),
         WhiteFilledButtonWidget(
           onPressed: () {
-            if (_controller.text.isNotEmpty) {
+            if (controller.text.isNotEmpty) {
               if (list == null) {
                 context.read<DailyGoalsBloc>().add(
                       EditDailyGoal(
                         dailyGoalId: goalId,
-                        newName: _controller.text,
+                        newName: controller.text,
                       ),
                     );
               } else {
@@ -50,7 +50,7 @@ class EditDailyGoalPopup extends StatelessWidget {
                       EditDevGoal(
                         list: list!,
                         devGoalId: goalId,
-                        newName: _controller.text,
+                        newName: controller.text,
                       ),
                     );
               }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top/config/router/app_router.dart';
-import 'package:top/config/theme/app_colors.dart';
 import 'package:top/domain/models/goal.dart';
 import 'package:top/presentation/screens/blocs/goal_bloc/goal_bloc.dart';
 import 'package:top/presentation/widgets/widgets.dart';

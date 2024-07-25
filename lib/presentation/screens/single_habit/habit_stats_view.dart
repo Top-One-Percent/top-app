@@ -16,7 +16,7 @@ class _HabitStatsViewState extends State<HabitStatsView> {
   String getWeekRange(DateTime dateNow) {
     final today = dateNow.weekday;
     final mondayDate = dateNow.subtract(Duration(days: today - 1));
-    final sundayDate = mondayDate.add(Duration(days: 6));
+    final sundayDate = mondayDate.add(const Duration(days: 6));
 
     final mondayDateFormatted = DateFormat('dd MMM').format(mondayDate);
     final sundayDateFormatted = DateFormat('dd MMM').format(sundayDate);
@@ -52,7 +52,7 @@ class _HabitStatsViewState extends State<HabitStatsView> {
                 weekNum == 0
                     ? 'This Week'
                     : getWeekRange(DateTime.now().subtract(Duration(days: 7 * weekNum))),
-                style: TextStyle(fontSize: 22.0),
+                style: const TextStyle(fontSize: 22.0),
               ),
             ),
             IconButton(
