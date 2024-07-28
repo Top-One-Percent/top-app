@@ -103,10 +103,10 @@ class _HabitsScreenState extends State<HabitsScreen> {
               ),
             );
           } else {
+            resetHabits(state.habits);
+
             //? FILTER HABITS LIST
             final habits = isFiltered ? state.habits.where(doToday).toList() : state.habits;
-
-            resetHabits(habits);
 
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 15.0),
