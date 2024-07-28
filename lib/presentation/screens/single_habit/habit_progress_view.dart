@@ -49,11 +49,15 @@ class RepsHabitProgressView extends StatelessWidget {
                   SizedBox(
                     width: 250,
                     height: 250,
-                    child: CircularProgressIndicator(
-                      value: achievementPercentage,
-                      strokeWidth: 5,
-                      backgroundColor: AppColors.grey,
-                      valueColor: AlwaysStoppedAnimation<Color>(Color(habit.colorValue)),
+                    child: TweenAnimationBuilder(
+                      tween: Tween(begin: 0.0, end: achievementPercentage),
+                      duration: const Duration(milliseconds: 400),
+                      builder: (context, value, child) => CircularProgressIndicator(
+                        value: value,
+                        strokeWidth: 5,
+                        backgroundColor: AppColors.grey,
+                        valueColor: AlwaysStoppedAnimation<Color>(Color(habit.colorValue)),
+                      ),
                     ),
                   ),
                   GestureDetector(
