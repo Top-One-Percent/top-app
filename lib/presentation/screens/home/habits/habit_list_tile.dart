@@ -14,7 +14,7 @@ class HabitListTile extends StatelessWidget {
       builder: (context, state) {
         var habit = state.habits.where((habit) => habit.id == habitId).first;
         final habitIndex = state.habits.indexWhere((h) => h == habit);
-        final iconCodePoint = int.parse(habit.icon);
+        // final iconCodePoint = int.parse(habit.icon);
 
         return ListTile(
           title: Text(habit.name, style: const TextStyle(color: Colors.white, fontSize: 20.0)),

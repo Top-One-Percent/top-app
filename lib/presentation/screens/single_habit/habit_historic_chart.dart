@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:top/domain/models/habit.dart';
 import 'package:top/presentation/screens/blocs/habits_bloc/habits_bloc.dart';
 
+// ignore: must_be_immutable
 class HabitHistoricChart extends StatelessWidget {
   final int habitId;
   final int week;
