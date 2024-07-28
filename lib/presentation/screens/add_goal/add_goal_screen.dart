@@ -71,6 +71,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
                       dateNotifier.value == null) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
+                        duration: Duration(milliseconds: 700),
                         content: Row(
                           children: [
                             Icon(Icons.error_outline),
@@ -98,6 +99,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
 
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
+                      duration: Duration(milliseconds: 700),
                       content: Row(
                         children: [
                           Icon(

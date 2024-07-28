@@ -123,6 +123,7 @@ class _NewHabitScreenState extends State<NewHabitScreen> {
                         _selectedDays.isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
+                          duration: Duration(milliseconds: 700),
                           content: Row(
                             children: [
                               Icon(Icons.error_outline),
@@ -165,6 +166,7 @@ class _NewHabitScreenState extends State<NewHabitScreen> {
 
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
+                        duration: Duration(milliseconds: 700),
                         content: Row(
                           children: [
                             Icon(

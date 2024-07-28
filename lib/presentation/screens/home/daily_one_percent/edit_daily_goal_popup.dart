@@ -57,7 +57,10 @@ class EditDailyGoalPopup extends StatelessWidget {
               appRouter.pop();
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Enter a valid name')),
+                const SnackBar(
+                  duration: Duration(milliseconds: 700),
+                  content: Text('Enter a valid name'),
+                ),
               );
             }
           },

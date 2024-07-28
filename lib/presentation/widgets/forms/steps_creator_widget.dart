@@ -49,7 +49,10 @@ class _StepsCreatorWidgetState extends State<StepsCreatorWidget> {
                   _controller.clear();
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Enter a valid name')),
+                    const SnackBar(
+                      duration: Duration(milliseconds: 700),
+                      content: Text('Enter a valid name'),
+                    ),
                   );
                 }
               },

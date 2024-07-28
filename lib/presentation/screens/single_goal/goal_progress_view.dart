@@ -113,7 +113,10 @@ class GoalProgressView extends StatelessWidget {
                   Navigator.of(context).pop();
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Enter a valid number')),
+                    const SnackBar(
+                      duration: Duration(milliseconds: 700),
+                      content: Text('Enter a valid number'),
+                    ),
                   );
                 }
               },
