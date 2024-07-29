@@ -6,7 +6,7 @@ class StepCardWidget extends StatelessWidget {
   final String stepName;
   final int index, currentStep;
   final Color color;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   const StepCardWidget(
       {super.key,

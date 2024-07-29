@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:top/config/theme/app_colors.dart';
 import 'package:top/presentation/widgets/widgets.dart';
 
 class StepScreen extends StatefulWidget {
@@ -21,10 +20,14 @@ class StepScreen extends StatefulWidget {
 class _StepScreenState extends State<StepScreen> {
   int currentStep = 0;
 
-  void _updateCurrentStep() {
+  void _updateCurrentStep() async {
     setState(() {
       currentStep++;
     });
+    if (currentStep >= widget.steps.length) {
+      await Future.delayed(const Duration(milliseconds: 600));
+      widget.onStepsFinished();
+    }
   }
 
   @override
