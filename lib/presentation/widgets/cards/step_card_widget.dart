@@ -24,6 +24,7 @@ class StepCardWidget extends StatelessWidget {
       onTap: type == ST.curr ? onTap : null,
       child: Card(
         clipBehavior: Clip.hardEdge,
+        color: type != ST.curr ? const Color.fromARGB(115, 31, 31, 31) : null,
         margin: const EdgeInsets.only(bottom: 30.0),
         elevation: 8,
         child: AnimatedContainer(
@@ -31,13 +32,13 @@ class StepCardWidget extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: type == ST.curr
                 ? LinearGradient(
-                    colors: [color.withOpacity(0.6), color],
+                    colors: [color.withOpacity(0.5), color],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   )
                 : null,
           ),
-          padding: const EdgeInsets.symmetric(vertical: 60.0, horizontal: 30.0),
+          padding: EdgeInsets.symmetric(vertical: type == ST.curr ? 60.0 : 30.0),
           child: type == ST.prev
               ? Icon(
                   Icons.check,
@@ -45,7 +46,7 @@ class StepCardWidget extends StatelessWidget {
                   size: 30.0,
                 )
               : Text(
-                  stepName,
+                  type == ST.curr ? stepName : '${index + 1}',
                   textAlign: TextAlign.center,
                   style: const TextStyle(fontSize: 20.0),
                 ),
