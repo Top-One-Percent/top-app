@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:top/config/theme/app_colors.dart';
+import 'package:top/presentation/widgets/widgets.dart';
 
 class StepScreen extends StatefulWidget {
   final List<String> steps;
   final Color habitColor;
   final VoidCallback onStepsFinished;
 
-  const StepScreen({
+  StepScreen({
     super.key,
     required this.steps,
     required this.habitColor,
@@ -14,37 +15,47 @@ class StepScreen extends StatefulWidget {
   });
 
   @override
-  _StepScreenState createState() => _StepScreenState();
+  State<StepScreen> createState() => _StepScreenState();
 }
 
 class _StepScreenState extends State<StepScreen> {
   int currentStep = 0;
 
+  void _updateCurrentStep() async {
+    setState(() {
+      currentStep++;
+    });
+    if (currentStep >= widget.steps.length) {
+      await Future.delayed(const Duration(milliseconds: 600));
+      widget.onStepsFinished();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        GestureDetector(
-          onTap: () {
-            if (currentStep < widget.steps.length - 1) {
-              setState(() {
-                currentStep++;
-              });
-            } else {
-              widget.onStepsFinished();
-            }
-          },
-          child: AnimatedContainer(
-            duration: const Duration(seconds: 1),
-            color: widget.habitColor.withOpacity((currentStep + 1) / widget.steps.length),
-            child: Center(
-              child: Text(
-                widget.steps[currentStep],
-                style: const TextStyle(fontSize: 26, color: Colors.white),
-                textAlign: TextAlign.center,
+        Column(
+          children: [
+            const SizedBox(height: 30.0),
+            const Text('Follow the steps', style: TextStyle(fontSize: 24.0)),
+            const SizedBox(height: 30.0),
+            Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.all(15.0),
+                itemCount: widget.steps.length,
+                itemBuilder: (context, index) {
+                  return StepCardWidget(
+                    stepName: widget.steps[index],
+                    index: index,
+                    currentStep: currentStep,
+                    color: widget.habitColor,
+                    onTap: _updateCurrentStep,
+                  );
+                },
               ),
             ),
-          ),
+          ],
         ),
         Align(
           alignment: Alignment.bottomCenter,
