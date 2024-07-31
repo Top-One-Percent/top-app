@@ -2,14 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:top/config/theme/app_theme.dart';
 import 'package:top/config/router/app_router.dart';
 import 'package:top/domain/models/habit.dart';
+import 'package:top/presentation/screens/single_habit/background_timer.dart';
 import 'presentation/screens/blocs/blocs.dart';
 import 'package:top/domain/models/models.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Permission.notification.isDenied.then((value) {
+    if (value) {
+      Permission.notification.request();
+    }
+  });
 
   // Initialize Hive
   final appDocumentDir = await getApplicationDocumentsDirectory();
@@ -36,17 +43,21 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider<GoalBloc>(
-          create: (BuildContext context) => GoalBloc(goalsBox)..add(LoadGoals()),
+          create: (BuildContext context) =>
+              GoalBloc(goalsBox)..add(LoadGoals()),
         ),
         BlocProvider<DailyGoalsBloc>(
-          create: (BuildContext context) => DailyGoalsBloc(dailyGoalsBox)..add(LoadDailyGoals()),
+          create: (BuildContext context) =>
+              DailyGoalsBloc(dailyGoalsBox)..add(LoadDailyGoals()),
         ),
         BlocProvider<DevelopmentGoalsBloc>(
           create: (BuildContext context) =>
-              DevelopmentGoalsBloc(improvGoalsBox, keepGoalsBox)..add(LoadDevGoals()),
+              DevelopmentGoalsBloc(improvGoalsBox, keepGoalsBox)
+                ..add(LoadDevGoals()),
         ),
         BlocProvider<HabitsBloc>(
-          create: (BuildContext context) => HabitsBloc(habitsBox)..add(LoadHabits()),
+          create: (BuildContext context) =>
+              HabitsBloc(habitsBox)..add(LoadHabits()),
         ),
       ],
       child: const MainApp(),
