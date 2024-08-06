@@ -4,7 +4,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:top/config/router/app_router.dart';
 import 'package:top/presentation/screens/blocs/blocs.dart';
 import 'package:top/presentation/screens/single_goal/goal_stats_view.dart';
-import 'goal_progress_view.dart'; // Import the new file
+import 'goal_progress_view.dart';
 
 class SingleGoalScreen extends StatelessWidget {
   final int goalId;
