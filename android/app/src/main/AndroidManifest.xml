@@ -4,6 +4,15 @@
         android:label="T.O.P"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        <meta-data
+                android:name="default_notification_icon"
+                android:resource="@mipmap/ic_bg_service_small"
+        />
+        <meta-data
+                android:name="default_notification_icon_color"
+                android:resource="@android:color/black"
+        />
         <activity
             android:name=".MainActivity"
             android:exported="true"

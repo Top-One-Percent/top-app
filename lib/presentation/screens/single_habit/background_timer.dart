@@ -98,7 +98,7 @@ void onStart(ServiceInstance service) async {
             android: AndroidNotificationDetails(
               'my_foreground',
               'MY FOREGROUND SERVICE',
-              icon: 'drawable/noti_icon',
+              icon: '@mipmap/ic_bg_service_small',
               ongoing: true,
             ),
           ),
