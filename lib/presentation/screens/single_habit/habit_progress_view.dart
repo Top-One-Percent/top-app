@@ -242,7 +242,7 @@ class _TimeHabitProgressViewState extends State<TimeHabitProgressView> {
   }
 
   void _resetTimer() async {
-    await BackgroundTimer.stopTimer();
+    await BackgroundTimer.resetTimer();
     setState(() {
       _elapsedSeconds = 0;
       _isRunning = false;

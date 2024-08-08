@@ -29,6 +29,13 @@ class BackgroundTimer {
     }
   }
 
+  static Future<void> resetTimer() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(_startTimeKey, 0);
+    await prefs.setInt(_elapsedSecondsKey, 0);
+    await prefs.setBool(_isRunningKey, false);
+  }
+
   static Future<int> getElapsedSeconds() async {
     final prefs = await SharedPreferences.getInstance();
     final int? startTime = prefs.getInt(_startTimeKey);
