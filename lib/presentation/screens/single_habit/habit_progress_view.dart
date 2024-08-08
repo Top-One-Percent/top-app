@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:top/config/theme/app_colors.dart';
 import 'package:top/domain/models/habit.dart';
 import 'package:top/presentation/screens/blocs/blocs.dart';
