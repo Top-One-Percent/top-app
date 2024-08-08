@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:top/config/theme/app_colors.dart';
 import 'package:top/domain/models/habit.dart';
 import 'package:top/presentation/screens/blocs/blocs.dart';
@@ -182,55 +183,68 @@ class _TimeHabitProgressViewState extends State<TimeHabitProgressView> {
   @override
   void initState() {
     super.initState();
-
-    // Fetch initial value from BLoC
-    final initialHabit =
-        context.read<HabitsBloc>().state.habits[widget.habitId];
-    if (initialHabit.habitLogs.isNotEmpty) {
-      _elapsedSeconds = initialHabit.habitLogs.last.complianceRate.toInt();
-    } else {
-      _elapsedSeconds = 0;
-    }
-
-    // Initialize the background service with the initial elapsed seconds
-    initializeService(_elapsedSeconds);
-
-    // Listen for updates from the background service
-    FlutterBackgroundService().on('updateTimer').listen((event) {
-      setState(() {
-        _elapsedSeconds = event!['elapsedSeconds'];
-        _isRunning = event['isRunning'];
-      });
-      context.read<HabitsBloc>().add(UpdateHabit(
-            habitId: widget.habitId,
-            newComplianceRate: _elapsedSeconds.toDouble(),
-          ));
-    });
+    _initializeTimer();
   }
 
-  @override
-  void dispose() {
-    FlutterBackgroundService().invoke('stopService');
-    super.dispose();
+  Future<void> _initializeTimer() async {
+    final initialHabit =
+        context.read<HabitsBloc>().state.habits[widget.habitId];
+    int initialElapsedSeconds = 0;
+    if (initialHabit.habitLogs.isNotEmpty) {
+      initialElapsedSeconds =
+          initialHabit.habitLogs.last.complianceRate.toInt();
+    }
+
+    final int elapsedSeconds = await BackgroundTimer.getElapsedSeconds();
+    final bool isRunning = await BackgroundTimer.isRunning();
+
+    setState(() {
+      _elapsedSeconds = elapsedSeconds > initialElapsedSeconds
+          ? elapsedSeconds
+          : initialElapsedSeconds;
+      _isRunning = isRunning;
+    });
+
+    if (_isRunning) {
+      _startTimer();
+    }
   }
 
   void _startTimer() async {
-    if (!_isRunning) {
-      FlutterBackgroundService().invoke('startTimer');
+    await BackgroundTimer.startTimer(_elapsedSeconds);
+    setState(() {
+      _isRunning = true;
+    });
+
+    while (_isRunning) {
+      await Future.delayed(const Duration(seconds: 1));
+      final int elapsedSeconds = await BackgroundTimer.getElapsedSeconds();
       setState(() {
-        _isRunning = true;
+        _elapsedSeconds = elapsedSeconds;
       });
-    } else {
-      FlutterBackgroundService().invoke('stopTimer');
-      setState(() {
-        _isRunning = false;
-      });
-      FlutterBackgroundService().invoke('stopService');
+      context.read<HabitsBloc>().add(UpdateHabit(
+          habitId: widget.habitId,
+          newComplianceRate: _elapsedSeconds.toDouble()));
     }
   }
 
-  void _resetTimer() {
-    FlutterBackgroundService().invoke('resetTimer');
+  void _stopTimer() async {
+    await BackgroundTimer.stopTimer();
+    setState(() {
+      _isRunning = false;
+    });
+  }
+
+  void _toggleTimer() {
+    if (_isRunning) {
+      _stopTimer();
+    } else {
+      _startTimer();
+    }
+  }
+
+  void _resetTimer() async {
+    await BackgroundTimer.stopTimer();
     setState(() {
       _elapsedSeconds = 0;
       _isRunning = false;
@@ -296,7 +310,7 @@ class _TimeHabitProgressViewState extends State<TimeHabitProgressView> {
                 children: [
                   CircularButton(
                     icon: _isRunning ? Icons.pause : Icons.play_arrow,
-                    onPressed: _startTimer,
+                    onPressed: _toggleTimer,
                   ),
                   const SizedBox(width: 50.0),
                   CircularButton(

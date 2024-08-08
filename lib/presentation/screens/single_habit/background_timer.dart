@@ -1,116 +1,56 @@
-import 'dart:async';
-import 'dart:ui';
+// background_timer.dart
 
 import 'package:flutter/material.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-Future<void> initializeService(int initialElapsedSeconds) async {
-  final service = FlutterBackgroundService();
+class BackgroundTimer {
+  static const String _startTimeKey = 'start_time';
+  static const String _elapsedSecondsKey = 'elapsed_seconds';
+  static const String _isRunningKey = 'is_running';
 
-  const AndroidNotificationChannel channel = AndroidNotificationChannel(
-    'my_foreground', // id
-    'MY FOREGROUND SERVICE', // title
-    description:
-        'This channel is used for important notifications.', // description
-    importance: Importance.low, // importance must be at low or higher level
-  );
+  static Future<void> startTimer(int elapsedSeconds) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(_startTimeKey, DateTime.now().millisecondsSinceEpoch);
+    await prefs.setInt(_elapsedSecondsKey, elapsedSeconds);
+    await prefs.setBool(_isRunningKey, true);
+  }
 
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  static Future<void> stopTimer() async {
+    final prefs = await SharedPreferences.getInstance();
+    final int? startTime = prefs.getInt(_startTimeKey);
+    final int? elapsedSeconds = prefs.getInt(_elapsedSecondsKey);
 
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
-
-  await service.configure(
-    androidConfiguration: AndroidConfiguration(
-      onStart: onStart,
-      autoStart: true,
-      isForegroundMode: true,
-      notificationChannelId:
-          'my_foreground', // must match with notification channel id
-      foregroundServiceNotificationId: 888,
-    ),
-    iosConfiguration: IosConfiguration(
-      autoStart: true,
-      onForeground: onStart,
-      onBackground: onIosBackground,
-    ),
-  );
-
-  await service.startService();
-  service.invoke('initTimer', {'elapsedSeconds': initialElapsedSeconds});
-}
-
-@pragma('vm:entry-point')
-Future<bool> onIosBackground(ServiceInstance service) async {
-  WidgetsFlutterBinding.ensureInitialized();
-  DartPluginRegistrant.ensureInitialized();
-  return true;
-}
-
-@pragma('vm:entry-point')
-void onStart(ServiceInstance service) async {
-  DartPluginRegistrant.ensureInitialized();
-
-  int elapsedSeconds = 0;
-  bool isRunning = false;
-
-  service.on('initTimer').listen((event) {
-    elapsedSeconds = event!['elapsedSeconds'];
-  });
-
-  service.on('startTimer').listen((event) {
-    isRunning = true;
-  });
-
-  service.on('stopTimer').listen((event) {
-    isRunning = false;
-  });
-
-  service.on('resetTimer').listen((event) {
-    elapsedSeconds = 0;
-    service.invoke('updateTimer', {"elapsedSeconds": elapsedSeconds});
-  });
-
-  service.on('stopService').listen((event) {
-    service.stopSelf();
-  });
-
-  Timer.periodic(const Duration(seconds: 1), (timer) async {
-    if (isRunning) {
-      elapsedSeconds++;
-      service.invoke('updateTimer',
-          {"elapsedSeconds": elapsedSeconds, 'isRunning': isRunning});
+    if (startTime != null && elapsedSeconds != null) {
+      final int currentTime = DateTime.now().millisecondsSinceEpoch;
+      final int additionalSeconds = ((currentTime - startTime) / 1000).floor();
+      await prefs.setInt(
+          _elapsedSecondsKey, elapsedSeconds + additionalSeconds);
+      await prefs.setBool(_isRunningKey, false);
     }
+  }
 
-    if (service is AndroidServiceInstance) {
-      if (await service.isForegroundService()) {
-        final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-            FlutterLocalNotificationsPlugin();
-        flutterLocalNotificationsPlugin.show(
-          888,
-          'T.O.P',
-          'Timer is running: ${_formatTime(elapsedSeconds)}',
-          const NotificationDetails(
-            android: AndroidNotificationDetails(
-              'my_foreground',
-              'MY FOREGROUND SERVICE',
-              icon: '@mipmap/ic_bg_service_small',
-              ongoing: true,
-            ),
-          ),
-        );
+  static Future<int> getElapsedSeconds() async {
+    final prefs = await SharedPreferences.getInstance();
+    final int? startTime = prefs.getInt(_startTimeKey);
+    final int? elapsedSeconds = prefs.getInt(_elapsedSecondsKey);
+    final bool? isRunning = prefs.getBool(_isRunningKey);
+
+    if (startTime != null && elapsedSeconds != null && isRunning != null) {
+      if (isRunning) {
+        final int currentTime = DateTime.now().millisecondsSinceEpoch;
+        final int additionalSeconds =
+            ((currentTime - startTime) / 1000).floor();
+        return elapsedSeconds + additionalSeconds;
+      } else {
+        return elapsedSeconds;
       }
+    } else {
+      return 0;
     }
-  });
-}
+  }
 
-String _formatTime(int seconds) {
-  final hours = seconds ~/ 3600;
-  final minutes = (seconds % 3600) ~/ 60;
-  final remainingSeconds = seconds % 60;
-  return '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}';
+  static Future<bool> isRunning() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_isRunningKey) ?? false;
+  }
 }
