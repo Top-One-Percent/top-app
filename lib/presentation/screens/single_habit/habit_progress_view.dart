@@ -193,13 +193,14 @@ class _TimeHabitProgressViewState extends State<TimeHabitProgressView> {
           initialHabit.habitLogs.last.complianceRate.toInt();
     }
 
-    final int elapsedSeconds = await BackgroundTimer.getElapsedSeconds();
+    // final int elapsedSeconds = await BackgroundTimer.getElapsedSeconds();
     final bool isRunning = await BackgroundTimer.isRunning();
 
     setState(() {
-      _elapsedSeconds = elapsedSeconds > initialElapsedSeconds
-          ? elapsedSeconds
-          : initialElapsedSeconds;
+      _elapsedSeconds = initialElapsedSeconds;
+      // _elapsedSeconds = elapsedSeconds > initialElapsedSeconds
+      //     ? elapsedSeconds
+      //     : initialElapsedSeconds;
       _isRunning = isRunning;
     });
 
