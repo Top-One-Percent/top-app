@@ -7,6 +7,7 @@ class AppTheme {
         scaffoldBackgroundColor: Colors.black,
         appBarTheme: const AppBarTheme(
           color: Colors.black,
+          centerTitle: true,
         ),
         buttonTheme: const ButtonThemeData(
           buttonColor: Colors.white, // White buttons
