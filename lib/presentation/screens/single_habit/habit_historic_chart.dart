@@ -53,8 +53,10 @@ class HabitHistoricChart extends StatelessWidget {
             ),
             child: Text(
               info,
-              style:
-                  const TextStyle(color: Colors.black, fontSize: 16.0, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold),
             ),
           ),
         ),
@@ -70,7 +72,8 @@ class HabitHistoricChart extends StatelessWidget {
         final Habit habit = state.habits[habitId];
 
         // Calculate streak using daily habit logs and frequency
-        int streak = calculateStreak(habit.dailyHabitLogs, habit.frequency, habit.target);
+        int streak = calculateStreak(
+            habit.dailyHabitLogs, habit.frequency, habit.target);
 
         return GridView.builder(
           physics: const NeverScrollableScrollPhysics(),
@@ -84,12 +87,15 @@ class HabitHistoricChart extends StatelessWidget {
             // Align targetDate with the start of the week (Monday)
             DateTime today = DateTime.now();
             int weekday = today.weekday;
-            DateTime startOfWeek = today.subtract(Duration(days: weekday - 1 - 7 * week));
+            DateTime startOfWeek =
+                today.subtract(Duration(days: weekday - 1 - 7 * week));
             DateTime targetDate = startOfWeek.add(Duration(days: index));
 
-            HabitLog? log = _findMostRecentLog(habit.dailyHabitLogs, targetDate);
+            HabitLog? log =
+                _findMostRecentLog(habit.dailyHabitLogs, targetDate);
 
-            bool isComplete = log != null && (log.complianceRate / habit.target) >= 1.0;
+            bool isComplete =
+                log != null && (log.complianceRate / habit.target) >= 1.0;
             bool isStreakDay = isComplete && streak >= 1;
 
             return GestureDetector(
@@ -101,7 +107,8 @@ class HabitHistoricChart extends StatelessWidget {
                   logComplianceRate = log != null ? log.complianceRate / 60 : 0;
                   habitTarget = habit.target / 60;
                 } else if (habit.unitType == 'hr') {
-                  logComplianceRate = log != null ? log.complianceRate / 3600 : 0;
+                  logComplianceRate =
+                      log != null ? log.complianceRate / 3600 : 0;
                   habitTarget = habit.target / 3600;
                 } else {
                   logComplianceRate = log != null ? log.complianceRate : 0;
@@ -117,8 +124,8 @@ class HabitHistoricChart extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   color: log != null
-                      ? Color(habit.colorValue)
-                          .withOpacity((log.complianceRate / habit.target).clamp(0.0, 1.0))
+                      ? Color(habit.colorValue).withOpacity(
+                          (log.complianceRate / habit.target).clamp(0.0, 1.0))
                       : Colors.transparent,
                   border: Border.all(
                     color: log == null || !isSameDay(log.date, DateTime.now())
@@ -150,11 +157,13 @@ class HabitHistoricChart extends StatelessWidget {
     );
   }
 
-  int calculateStreak(List<HabitLog> dailyHabitLogs, List<int> frequency, double target) {
+  int calculateStreak(
+      List<HabitLog> dailyHabitLogs, List<int> frequency, double target) {
     int streak = 0;
     for (int i = dailyHabitLogs.length - 1; i >= 0; i--) {
       HabitLog log = dailyHabitLogs[i];
-      int dayOfWeek = log.date.weekday - 1; // Convert to 0 (Monday) - 6 (Sunday)
+      int dayOfWeek =
+          log.date.weekday - 1; // Convert to 0 (Monday) - 6 (Sunday)
 
       if (!frequency.contains(dayOfWeek)) {
         // If the habit is not supposed to be done on this day, skip it
@@ -164,7 +173,6 @@ class HabitHistoricChart extends StatelessWidget {
       if ((log.complianceRate / target) >= 1.0) {
         streak++;
       } else {
-        streak = 1; // Reset streak if there's a break
         return streak;
       }
     }
@@ -173,8 +181,10 @@ class HabitHistoricChart extends StatelessWidget {
 
   HabitLog? _findMostRecentLog(List<HabitLog> logs, DateTime targetDate) {
     // Filter logs to those on or before the target date
-    List<HabitLog> filteredLogs =
-        logs.where((log) => log.date.isBefore(targetDate.add(const Duration(days: 1)))).toList();
+    List<HabitLog> filteredLogs = logs
+        .where(
+            (log) => log.date.isBefore(targetDate.add(const Duration(days: 1))))
+        .toList();
     // Sort logs by date in descending order to get the most recent log first
     filteredLogs.sort((a, b) => b.date.compareTo(a.date));
     // Find the most recent log that matches the target date
@@ -188,6 +198,8 @@ class HabitHistoricChart extends StatelessWidget {
   }
 
   bool isSameDay(DateTime date1, DateTime date2) {
-    return date1.year == date2.year && date1.month == date2.month && date1.day == date2.day;
+    return date1.year == date2.year &&
+        date1.month == date2.month &&
+        date1.day == date2.day;
   }
 }
