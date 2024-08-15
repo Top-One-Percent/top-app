@@ -6,7 +6,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:top/config/theme/app_theme.dart';
 import 'package:top/config/router/app_router.dart';
 import 'package:top/domain/models/habit.dart';
-import 'package:top/presentation/screens/single_habit/background_timer.dart';
 import 'presentation/screens/blocs/blocs.dart';
 import 'package:top/domain/models/models.dart';
 
