@@ -96,10 +96,10 @@ class RepsHabitProgressView extends StatelessWidget {
                   CircularButton(
                     icon: Icons.add,
                     onPressed: () {
-                      if (lastLog + 1 <= habit.target) {
-                        context.read<HabitsBloc>().add(UpdateHabit(
-                            habitId: habitId, newComplianceRate: lastLog + 1));
-                      }
+                      // if (lastLog + 1 <= habit.target) {
+                      context.read<HabitsBloc>().add(UpdateHabit(
+                          habitId: habitId, newComplianceRate: lastLog + 1));
+                      // }
                     },
                   )
                 ],
