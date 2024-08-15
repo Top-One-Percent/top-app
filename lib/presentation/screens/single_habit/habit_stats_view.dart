@@ -51,7 +51,8 @@ class _HabitStatsViewState extends State<HabitStatsView> {
               child: Text(
                 weekNum == 0
                     ? 'This Week'
-                    : getWeekRange(DateTime.now().subtract(Duration(days: 7 * weekNum))),
+                    : getWeekRange(DateTime.now()
+                        .subtract(Duration(days: 7 * weekNum * -1))),
                 style: const TextStyle(fontSize: 22.0),
               ),
             ),
