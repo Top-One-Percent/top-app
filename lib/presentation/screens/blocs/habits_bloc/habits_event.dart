@@ -4,6 +4,12 @@ abstract class HabitsEvent {}
 
 class LoadHabits extends HabitsEvent {}
 
+class ResetHabits extends HabitsEvent {
+  final List<Habit> habits;
+
+  ResetHabits({required this.habits});
+}
+
 class AddHabit extends HabitsEvent {
   final String name;
   final List<int> frequency;

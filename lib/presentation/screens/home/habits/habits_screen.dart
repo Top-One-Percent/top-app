@@ -19,6 +19,7 @@ class HabitsScreen extends StatefulWidget {
 
 class _HabitsScreenState extends State<HabitsScreen> {
   bool isFiltered = true;
+  bool? isRestarted;
 
   bool doToday(Habit habit) {
     final days = List<int>.from(habit.frequency);
@@ -27,55 +28,6 @@ class _HabitsScreenState extends State<HabitsScreen> {
       return true;
     }
     return false;
-  }
-
-  void resetHabits(List<Habit> habits) async {
-    final habitsBox = await Hive.openBox<Habit>('habitsBox');
-
-    if (habits.isNotEmpty) {
-      for (Habit habit in habits) {
-        DateTime now = DateTime.now();
-        DateTime yesterday = now.subtract(const Duration(days: 1));
-
-        if (habit.dailyHabitLogs.isEmpty ||
-            habit.dailyHabitLogs.last.date.day != DateTime.now().day) {
-          final lastLog = habit.habitLogs.isNotEmpty &&
-                  habit.habitLogs.last.date.day == DateTime.now().day
-              ? habit.habitLogs.last.complianceRate
-              : 0.0;
-
-          bool hasYesterdayLog = habit.dailyHabitLogs.any(
-            (log) =>
-                log.date.year == yesterday.year &&
-                log.date.month == yesterday.month &&
-                log.date.day == yesterday.day,
-          );
-
-          if (!hasYesterdayLog && habit.habitLogs.isNotEmpty) {
-            if (habit.habitLogs.last.date.day != now.day) {
-              habit.dailyHabitLogs.add(HabitLog(
-                  date: now.subtract(const Duration(hours: 24)),
-                  complianceRate: lastLog));
-            }
-          } else {
-            habit.dailyHabitLogs
-                .add(HabitLog(date: DateTime.now(), complianceRate: lastLog));
-          }
-
-          habit.habitLogs
-              .add(HabitLog(complianceRate: 0, date: DateTime.now()));
-        }
-      }
-
-      await habitsBox.clear();
-
-      for (Habit habit in habits) {
-        await habitsBox.add(habit);
-      }
-    }
-
-    // Reset Background Timer
-    await BackgroundTimer.resetTimer();
   }
 
   @override
@@ -108,53 +60,59 @@ class _HabitsScreenState extends State<HabitsScreen> {
                 'No habits yet',
                 style: TextStyle(fontSize: 22.0),
               ),
-            );
+          );
           } else {
             resetHabits(state.habits);
 
-            //? FILTER HABITS LIST
-            final habits = isFiltered
-                ? state.habits.where(doToday).toList()
-                : state.habits;
+            if (!isRestarted!) {
+              return CircularProgressIndicator(color: Colors.white);
+            } else {
+              //? FILTER HABITS LIST
+              final habits = isFiltered
+                  ? state.habits.where(doToday).toList()
+                  : state.habits;
 
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15.0),
-              child: ListView.builder(
-                itemCount: habits.length,
-                itemBuilder: (context, index) {
-                  Random random = Random();
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 15.0),
+                child: ListView.builder(
+                  itemCount: habits.length,
+                  itemBuilder: (context, index) {
+                    Random random = Random();
 
-                  final habit = habits[index];
-                  return Dismissible(
-                    key: ValueKey(habit.id),
-                    direction: DismissDirection.endToStart,
-                    background: Container(
-                      padding: const EdgeInsets.all(15.0),
-                      alignment: Alignment.centerRight,
-                      color: Colors.red,
-                      child: const Icon(
-                        Icons.delete_sweep,
-                        color: Colors.white,
-                        size: 35.0,
+                    final habit = habits[index];
+                    return Dismissible(
+                      key: ValueKey(habit.id),
+                      direction: DismissDirection.endToStart,
+                      background: Container(
+                        padding: const EdgeInsets.all(15.0),
+                        alignment: Alignment.centerRight,
+                        color: Colors.red,
+                        child: const Icon(
+                          Icons.delete_sweep,
+                          color: Colors.white,
+                          size: 35.0,
+                        ),
                       ),
-                    ),
-                    child: FadeInDown(
-                      from: 50,
-                      duration:
-                          Duration(milliseconds: 300 + random.nextInt(301)),
-                      child: HabitListTile(
-                        habitId: habit.id,
+                      child: FadeInDown(
+                        from: 50,
+                        duration:
+                        Duration(milliseconds: 300 + random.nextInt(301)),
+                        child: HabitListTile(
+                          habitId: habit.id,
+                        ),
                       ),
-                    ),
-                    onDismissed: (direction) {
-                      context
-                          .read<HabitsBloc>()
-                          .add(RemoveHabit(habitId: habit.id));
-                    },
-                  );
-                },
-              ),
-            );
+                      onDismissed: (direction) {
+                        context
+                            .read<HabitsBloc>()
+                            .add(RemoveHabit(habitId: habit.id));
+                      },
+                    );
+                  },
+                ),
+              );
+            }
+
+
           }
         },
       ),
