@@ -8,6 +8,7 @@ import 'package:top/config/router/app_router.dart';
 import 'package:top/domain/models/habit.dart';
 import 'package:top/presentation/screens/blocs/blocs.dart';
 import 'package:top/presentation/screens/home/habits/habit_list_tile.dart';
+import 'package:top/presentation/screens/single_habit/background_timer.dart';
 
 class HabitsScreen extends StatefulWidget {
   const HabitsScreen({super.key});
@@ -38,10 +39,10 @@ class _HabitsScreenState extends State<HabitsScreen> {
 
         if (habit.dailyHabitLogs.isEmpty ||
             habit.dailyHabitLogs.last.date.day != DateTime.now().day) {
-          final lastLog =
-              habit.habitLogs.isNotEmpty && habit.habitLogs.last.date.day == DateTime.now().day
-                  ? habit.habitLogs.last.complianceRate
-                  : 0.0;
+          final lastLog = habit.habitLogs.isNotEmpty &&
+                  habit.habitLogs.last.date.day == DateTime.now().day
+              ? habit.habitLogs.last.complianceRate
+              : 0.0;
 
           bool hasYesterdayLog = habit.dailyHabitLogs.any(
             (log) =>
@@ -52,14 +53,17 @@ class _HabitsScreenState extends State<HabitsScreen> {
 
           if (!hasYesterdayLog && habit.habitLogs.isNotEmpty) {
             if (habit.habitLogs.last.date.day != now.day) {
-              habit.dailyHabitLogs.add(
-                  HabitLog(date: now.subtract(const Duration(hours: 24)), complianceRate: lastLog));
+              habit.dailyHabitLogs.add(HabitLog(
+                  date: now.subtract(const Duration(hours: 24)),
+                  complianceRate: lastLog));
             }
           } else {
-            habit.dailyHabitLogs.add(HabitLog(date: DateTime.now(), complianceRate: lastLog));
+            habit.dailyHabitLogs
+                .add(HabitLog(date: DateTime.now(), complianceRate: lastLog));
           }
 
-          habit.habitLogs.add(HabitLog(complianceRate: 0, date: DateTime.now()));
+          habit.habitLogs
+              .add(HabitLog(complianceRate: 0, date: DateTime.now()));
         }
       }
 
@@ -69,6 +73,9 @@ class _HabitsScreenState extends State<HabitsScreen> {
         await habitsBox.add(habit);
       }
     }
+
+    // Reset Background Timer
+    await BackgroundTimer.resetTimer();
   }
 
   @override
@@ -106,7 +113,9 @@ class _HabitsScreenState extends State<HabitsScreen> {
             resetHabits(state.habits);
 
             //? FILTER HABITS LIST
-            final habits = isFiltered ? state.habits.where(doToday).toList() : state.habits;
+            final habits = isFiltered
+                ? state.habits.where(doToday).toList()
+                : state.habits;
 
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 15.0),
@@ -131,13 +140,16 @@ class _HabitsScreenState extends State<HabitsScreen> {
                     ),
                     child: FadeInDown(
                       from: 50,
-                      duration: Duration(milliseconds: 300 + random.nextInt(301)),
+                      duration:
+                          Duration(milliseconds: 300 + random.nextInt(301)),
                       child: HabitListTile(
                         habitId: habit.id,
                       ),
                     ),
                     onDismissed: (direction) {
-                      context.read<HabitsBloc>().add(RemoveHabit(habitId: habit.id));
+                      context
+                          .read<HabitsBloc>()
+                          .add(RemoveHabit(habitId: habit.id));
                     },
                   );
                 },
