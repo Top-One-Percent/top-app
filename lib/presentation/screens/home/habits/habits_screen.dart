@@ -3,12 +3,10 @@ import 'dart:math';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
 import 'package:top/config/router/app_router.dart';
 import 'package:top/domain/models/habit.dart';
 import 'package:top/presentation/screens/blocs/blocs.dart';
 import 'package:top/presentation/screens/home/habits/habit_list_tile.dart';
-import 'package:top/presentation/screens/single_habit/background_timer.dart';
 
 class HabitsScreen extends StatefulWidget {
   const HabitsScreen({super.key});
@@ -28,6 +26,13 @@ class _HabitsScreenState extends State<HabitsScreen> {
       return true;
     }
     return false;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    final habitsBloc = context.read<HabitsBloc>();
+    habitsBloc.add(ResetHabits(habits: habitsBloc.state.habits));
   }
 
   @override
@@ -52,20 +57,25 @@ class _HabitsScreenState extends State<HabitsScreen> {
           )
         ],
       ),
-      body: BlocBuilder<HabitsBloc, HabitsState>(
-        builder: (context, state) {
-          if (state.habits.isEmpty) {
-            return const Center(
-              child: Text(
-                'No habits yet',
+      body: BlocListener<HabitsBloc, HabitsState>(
+        listenWhen: (previous, current) =>
+            previous.habitsRestarted != current.habitsRestarted,
+        listener: (context, state) {},
+        child: BlocBuilder<HabitsBloc, HabitsState>(
+          builder: (context, state) {
+            if (state.habits.isEmpty) {
+              return const Center(
+                child: Text(
+                  'No habits yet',
+                  style: TextStyle(fontSize: 22.0),
+                ),
+              );
+            } else if (!state.habitsRestarted) {
+              return const Center(
+                  child: Text(
+                'Loading...',
                 style: TextStyle(fontSize: 22.0),
-              ),
-          );
-          } else {
-            resetHabits(state.habits);
-
-            if (!isRestarted!) {
-              return CircularProgressIndicator(color: Colors.white);
+              ));
             } else {
               //? FILTER HABITS LIST
               final habits = isFiltered
@@ -96,7 +106,7 @@ class _HabitsScreenState extends State<HabitsScreen> {
                       child: FadeInDown(
                         from: 50,
                         duration:
-                        Duration(milliseconds: 300 + random.nextInt(301)),
+                            Duration(milliseconds: 300 + random.nextInt(301)),
                         child: HabitListTile(
                           habitId: habit.id,
                         ),
@@ -111,10 +121,8 @@ class _HabitsScreenState extends State<HabitsScreen> {
                 ),
               );
             }
-
-
-          }
-        },
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

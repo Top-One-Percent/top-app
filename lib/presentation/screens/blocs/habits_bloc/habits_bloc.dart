@@ -24,8 +24,9 @@ class HabitsBloc extends Bloc<HabitsEvent, HabitsState> {
     emit(state.copyWith(habits: habits));
   }
 
-void _resetHabits(ResetHabits event, Emitter<HabitsState> emit) async {
+  void _resetHabits(ResetHabits event, Emitter<HabitsState> emit) async {
     emit(state.copyWith(habitsRestarted: false));
+    print('Init reset, status: ${state.habitsRestarted}');
 
     final habits = event.habits;
 
@@ -39,13 +40,13 @@ void _resetHabits(ResetHabits event, Emitter<HabitsState> emit) async {
         if (habit.dailyHabitLogs.isEmpty ||
             habit.dailyHabitLogs.last.date.day != DateTime.now().day) {
           final lastLog = habit.habitLogs.isNotEmpty &&
-              habit.habitLogs.last.date.day == DateTime.now().day
+                  habit.habitLogs.last.date.day == DateTime.now().day
               ? habit.habitLogs.last.complianceRate
               : 0.0;
 
           bool hasYesterdayLog = habit.dailyHabitLogs.any(
-                (log) =>
-            log.date.year == yesterday.year &&
+            (log) =>
+                log.date.year == yesterday.year &&
                 log.date.month == yesterday.month &&
                 log.date.day == yesterday.day,
           );
@@ -76,11 +77,9 @@ void _resetHabits(ResetHabits event, Emitter<HabitsState> emit) async {
     // Reset Background Timer
     await BackgroundTimer.resetTimer();
 
-
     emit(state.copyWith(habitsRestarted: true));
-
+    print('Finish reset, status: ${state.habitsRestarted}');
   }
-
 
   void _addHabit(AddHabit event, Emitter<HabitsState> emit) {
     final newHabit = Habit(
@@ -102,11 +101,12 @@ void _resetHabits(ResetHabits event, Emitter<HabitsState> emit) async {
   }
 
   void _editHabit(EditHabit event, Emitter<HabitsState> emit) {
-    final habitIndex =
-        List<Habit>.from(state.habits).indexWhere((element) => element.id == event.habitId);
+    final habitIndex = List<Habit>.from(state.habits)
+        .indexWhere((element) => element.id == event.habitId);
 
     final habitLogs = List<HabitLog>.from(state.habits[habitIndex].habitLogs);
-    final dailyHabitLogs = List<HabitLog>.from(state.habits[habitIndex].dailyHabitLogs);
+    final dailyHabitLogs =
+        List<HabitLog>.from(state.habits[habitIndex].dailyHabitLogs);
 
     final editedHabit = Habit(
       name: event.name,
@@ -134,16 +134,20 @@ void _resetHabits(ResetHabits event, Emitter<HabitsState> emit) async {
   void _updateHabit(UpdateHabit event, Emitter<HabitsState> emit) {
     final updatedHabits = List<Habit>.from(state.habits);
 
-    final newHabitLog = HabitLog(date: DateTime.now(), complianceRate: event.newComplianceRate);
+    final newHabitLog =
+        HabitLog(date: DateTime.now(), complianceRate: event.newComplianceRate);
 
     final habit = updatedHabits[event.habitId];
-    final updatedHabitLogs = List<HabitLog>.from(habit.habitLogs)..add(newHabitLog);
+    final updatedHabitLogs = List<HabitLog>.from(habit.habitLogs)
+      ..add(newHabitLog);
 
     List<HabitLog> updatedDailyHabitLogs = [];
-    if (habit.dailyHabitLogs.isEmpty || habit.dailyHabitLogs.last.date.day != DateTime.now().day) {
+    if (habit.dailyHabitLogs.isEmpty ||
+        habit.dailyHabitLogs.last.date.day != DateTime.now().day) {
       updatedDailyHabitLogs.add(newHabitLog);
     } else if (habit.dailyHabitLogs.last.date.day == DateTime.now().day) {
-      updatedDailyHabitLogs = List<HabitLog>.from(habit.dailyHabitLogs)..removeLast();
+      updatedDailyHabitLogs = List<HabitLog>.from(habit.dailyHabitLogs)
+        ..removeLast();
       updatedDailyHabitLogs.add(newHabitLog);
     }
 
@@ -169,7 +173,8 @@ void _resetHabits(ResetHabits event, Emitter<HabitsState> emit) async {
 
   void _removeHabit(RemoveHabit event, Emitter<HabitsState> emit) {
     final updatedHabits = List<Habit>.from(state.habits);
-    final habitIndex = updatedHabits.indexWhere((element) => element.id == event.habitId);
+    final habitIndex =
+        updatedHabits.indexWhere((element) => element.id == event.habitId);
 
     habitsBox.deleteAt(habitIndex);
 
