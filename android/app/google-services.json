@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1030990867073",
+    "project_id": "top-app-e6b9d",
+    "storage_bucket": "top-app-e6b9d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1030990867073:android:3e622f2d7758fce905fb80",
+        "android_client_info": {
+          "package_name": "com.top.topapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRvUxOnJIGGFUiFp2l1LFgiCLoj6jkVrg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
