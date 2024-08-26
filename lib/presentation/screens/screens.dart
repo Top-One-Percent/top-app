@@ -13,3 +13,4 @@ export 'single_habit/step_screen.dart';
 export 'edit_habit/edit_habit_screen.dart';
 export 'splash_screen.dart';
 export 'home/mentor/mentor_screen.dart';
+export 'home/mentor/mentor_chat_screen.dart';

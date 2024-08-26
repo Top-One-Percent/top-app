@@ -58,5 +58,9 @@ final appRouter = GoRouter(
       path: '/mentor',
       builder: (context, state) => const MentorScreen(),
     ),
+    GoRoute(
+      path: '/mentorChat',
+      builder: (context, state) => const MentorChatScreen(),
+    ),
   ],
 );
