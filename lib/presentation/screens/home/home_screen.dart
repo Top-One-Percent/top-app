@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
           GoalsScreen(),
           HabitsScreen(),
           DailyOnePercentScreen(),
-          MindsetScreen(),
+          MentorScreen(),
         ],
       ),
       bottomNavigationBar: StylishBottomBar(
@@ -59,6 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
           barAnimation: BarAnimation.blink,
           iconSize: 32.0,
           iconStyle: IconStyle.animated,
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
         ),
         backgroundColor: Colors.black,
         currentIndex: selected,
