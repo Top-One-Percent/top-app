@@ -13,10 +13,13 @@ class TipProvider with ChangeNotifier {
   List<Tip> get tips => _tips;
 
   Future<void> loadTips() async {
+    print(_tips);
     _tips = await tipRepository.getTips();
+    print(_tips);
+
     notifyListeners();
   }
 
-  List<Tip> get generalTips => _tips.where((tip) => tip.isGeneral).toList();
+  List<Tip> get normalTips => _tips.where((tip) => !tip.isFavorite).toList();
   List<Tip> get favoriteTips => _tips.where((tip) => tip.isFavorite).toList();
 }
