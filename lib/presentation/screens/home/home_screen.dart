@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomBarItem(
             icon: const Icon(Icons.diamond_outlined),
-            title: const Text('Image'),
+            title: const Text('Mentor'),
             backgroundColor: Colors.white,
           ),
         ],

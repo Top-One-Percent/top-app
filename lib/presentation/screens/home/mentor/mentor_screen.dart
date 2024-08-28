@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:top/config/router/app_router.dart';
 import 'package:top/config/theme/app_colors.dart';
 import 'package:top/domain/models/models.dart';
 import 'package:top/presentation/providers/providers.dart';
@@ -112,6 +113,9 @@ Widget _buildTipsList(String title, List<Tip> items) {
           return IconTextCard(
             icon: items[index].isGeneral ? Icons.help_outlined : Icons.settings,
             text: items[index].name,
+            onTap: () {
+              appRouter.push('/mentorChat/${items[index].id}');
+            },
           );
         },
       ),
