@@ -13,3 +13,4 @@ export 'forms/related_goal_selector.dart';
 export 'cards/step_card_widget.dart';
 export 'cards/icon_text_card.dart';
 export 'cards/msj_bubble_widget.dart';
+export 'cards/stats_card_widget.dart';
