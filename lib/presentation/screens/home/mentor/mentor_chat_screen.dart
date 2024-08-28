@@ -1,4 +1,3 @@
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:top/config/router/app_router.dart';
@@ -46,12 +45,18 @@ class MentorChatScreen extends StatelessWidget {
               },
             ),
           ),
-          WhiteFilledButtonWidget(
-            onPressed: () {
-              appRouter.pop();
-            },
-            buttonText: 'Ok',
-            padding: const EdgeInsets.symmetric(horizontal: 100.0),
+          SafeArea(
+            
+            child: Padding(
+              padding: const EdgeInsets.only(top: 5.0),
+              child: WhiteFilledButtonWidget(
+                onPressed: () {
+                  appRouter.pop();
+                },
+                buttonText: 'Ok',
+                padding: const EdgeInsets.symmetric(horizontal: 100.0),
+              ),
+            ),
           )
         ],
       ),
