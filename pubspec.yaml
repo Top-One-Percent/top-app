@@ -27,7 +27,6 @@ dependencies:
   typewritertext: ^3.0.6
   uuid: ^4.4.0
   flutter_local_notifications: ^17.2.1+2
-  flutter_background_service: ^5.0.6
   permission_handler: ^11.3.1
   shared_preferences: ^2.3.1
   cloud_firestore: ^4.14.0
