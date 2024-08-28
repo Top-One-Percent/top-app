@@ -3,8 +3,13 @@ import 'package:flutter/material.dart';
 class WhiteFilledButtonWidget extends StatelessWidget {
   final void Function() onPressed;
   final String buttonText;
+  final EdgeInsetsGeometry? padding;
 
-  const WhiteFilledButtonWidget({super.key, required this.onPressed, required this.buttonText});
+  const WhiteFilledButtonWidget(
+      {super.key,
+      required this.onPressed,
+      required this.buttonText,
+      this.padding});
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +21,7 @@ class WhiteFilledButtonWidget extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
         ),
+        padding: padding,
         textStyle: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
       ),
       child: Text(buttonText),

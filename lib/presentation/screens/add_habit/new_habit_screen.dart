@@ -86,14 +86,14 @@ class _NewHabitScreenState extends State<NewHabitScreen> {
                   },
                 ),
                 const SizedBox(height: 20.0),
-                HoursSelectorWidget(
-                  onHoursChanged: (hours) {
-                    setState(() {
-                      _selectedHours = hours.map((e) => e.format(context)).toList();
-                    });
-                  },
-                ),
-                const SizedBox(height: 20.0),
+                // HoursSelectorWidget(
+                //   onHoursChanged: (hours) {
+                //     setState(() {
+                //       _selectedHours = hours.map((e) => e.format(context)).toList();
+                //     });
+                //   },
+                // ),
+                // const SizedBox(height: 20.0),
                 IconSelectorWidget(
                   onIconSelected: (icon) {
                     setState(() {
@@ -130,7 +130,8 @@ class _NewHabitScreenState extends State<NewHabitScreen> {
                               SizedBox(width: 10.0),
                               Text(
                                 'Please fill all fields',
-                                style: TextStyle(color: Colors.white, fontSize: 16.0),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 16.0),
                               ),
                             ],
                           ),
@@ -142,9 +143,11 @@ class _NewHabitScreenState extends State<NewHabitScreen> {
 
                     if (_selectedUnitType != 'rep') {
                       if (_selectedUnitType == 'hr') {
-                        count = (int.parse(_countController.text) * 3600).toDouble();
+                        count = (int.parse(_countController.text) * 3600)
+                            .toDouble();
                       } else if (_selectedUnitType == 'min') {
-                        count = (int.parse(_countController.text) * 60).toDouble();
+                        count =
+                            (int.parse(_countController.text) * 60).toDouble();
                       }
                     } else {
                       count = double.parse(_countController.text);
@@ -160,7 +163,8 @@ class _NewHabitScreenState extends State<NewHabitScreen> {
                             target: count,
                             steps: _selectedSteps,
                             remindersTime: _selectedHours,
-                            linkedGoalId: _selectedGoal != null ? _selectedGoal!.id : '0',
+                            linkedGoalId:
+                                _selectedGoal != null ? _selectedGoal!.id : '0',
                           ),
                         );
 
@@ -174,7 +178,8 @@ class _NewHabitScreenState extends State<NewHabitScreen> {
                             ),
                             SizedBox(width: 10.0),
                             Text('Habit Added Successfully!',
-                                style: TextStyle(color: Colors.white, fontSize: 16.0)),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 16.0)),
                           ],
                         ),
                         backgroundColor: Colors.green,

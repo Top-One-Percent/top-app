@@ -8,6 +8,7 @@ class AppTheme {
         appBarTheme: const AppBarTheme(
           color: Colors.black,
           centerTitle: true,
+          surfaceTintColor: Colors.black,
         ),
         buttonTheme: const ButtonThemeData(
           buttonColor: Colors.white, // White buttons

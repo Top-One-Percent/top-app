@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
+  static const Color darkGrey = Color(0xFF2E2E2E);
+  static const Color middleGrey = Color(0xFF545454);
   static const Color grey = Color(0xFFBDBDBD);
+  static const Color bluishWhite = Color(0xFFFAFDFD);
 
   static const List<Color> colorOptions = [
     Color(0xFFD32F2F), // Dark Red
