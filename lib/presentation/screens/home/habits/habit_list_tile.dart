@@ -28,7 +28,7 @@ class HabitListTile extends StatelessWidget {
           ),
           trailing: Text(
             '${(_calculateProgress(habit) * 100).round().toString()}%',
-            style: const TextStyle(fontSize: 18.0),
+            style: const TextStyle(fontSize: 16.0),
           ),
           onTap: () {
             appRouter.push('/habit/$habitIndex');

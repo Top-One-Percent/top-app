@@ -29,10 +29,10 @@ class StatsCardWidget extends StatelessWidget {
               Flexible(
                   child: Text(name,
                       style: const TextStyle(
-                          fontSize: 22.0, fontWeight: FontWeight.bold))),
+                          fontSize: 20.0, fontWeight: FontWeight.bold))),
             ],
           ),
-          Text(data, style: const TextStyle(fontSize: 20.0)),
+          Text(data, style: const TextStyle(fontSize: 18.0)),
         ],
       ),
     );

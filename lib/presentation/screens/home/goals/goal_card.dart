@@ -21,7 +21,7 @@ class GoalCard extends StatelessWidget {
           style: const TextStyle(color: Colors.white, fontSize: 18.0)),
       trailing: Text(
         '${(_calculateProgress(goal) * 100).round().toString()}%',
-        style: const TextStyle(fontSize: 18.0),
+        style: const TextStyle(fontSize: 16.0),
       ),
       subtitle: LinearProgressIndicator(
         value: _calculateProgress(goal),

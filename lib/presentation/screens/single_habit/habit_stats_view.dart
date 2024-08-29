@@ -73,7 +73,8 @@ class _HabitStatsViewState extends State<HabitStatsView> {
             padding: const EdgeInsets.all(25.0),
             child: HabitHistoricChart(habitId: widget.habitId, week: weekNum),
           ),
-          const Text('Your Stats', style: TextStyle(fontSize: 22.0)),
+          const SizedBox(height: 20.0),
+          const Text('Your Stats', style: TextStyle(fontSize: 24.0)),
           const SizedBox(height: 20.0),
           _buildStatsGrid(),
         ],
@@ -88,10 +89,10 @@ Widget _buildStatsGrid() {
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         childAspectRatio: 1.3,
-        crossAxisSpacing: 15.0,
-        mainAxisSpacing: 15.0,
+        crossAxisSpacing: 20.0,
+        mainAxisSpacing: 18.0,
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      padding: const EdgeInsets.symmetric(horizontal: 25.0),
       children: const [
         StatsCardWidget(
           icon: Icons.local_fire_department_outlined,
