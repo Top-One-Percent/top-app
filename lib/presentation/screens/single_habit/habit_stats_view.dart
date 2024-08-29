@@ -29,12 +29,12 @@ class _HabitStatsViewState extends State<HabitStatsView> {
     return '$mondayDateFormatted - $sundayDateFormatted';
   }
 
-  @override
-  void initState() {
-    final habit = context.read<HabitsBloc>().state.habits[widget.habitId];
-    context.read<HabitsBloc>().add(UpdateHabitStats(habitId: habit.id));
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   final habit = context.read<HabitsBloc>().state.habits[widget.habitId];
+  //   context.read<HabitsBloc>().add(UpdateHabitStats(habitId: habit.id));
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -114,21 +114,39 @@ Widget _buildStatsGrid(Habit habit) {
           icon: Icons.local_fire_department_outlined,
           name: 'Best Streak',
           data: '${habit.bestStreak.last} days',
+          current: habit.bestStreak.last.toDouble(),
+          previous: (habit.bestStreak.length >= 2
+                  ? habit.bestStreak[habit.bestStreak.length - 2]
+                  : habit.bestStreak.last)
+              .toDouble(),
         ),
         StatsCardWidget(
           icon: Icons.verified_outlined,
           name: 'Total Done',
           data: '${habit.totalDays.last} days',
+          current: habit.totalDays.last.toDouble(),
+          previous: (habit.totalDays.length >= 2
+                  ? habit.totalDays[habit.totalDays.length - 2]
+                  : habit.totalDays.last)
+              .toDouble(),
         ),
         StatsCardWidget(
           icon: Icons.bar_chart_outlined,
           name: 'Daily Avg',
           data: '${(habit.dailyAvg.last * 100).toStringAsFixed(1)}%',
+          current: habit.dailyAvg.last,
+          previous: habit.dailyAvg.length >= 2
+              ? habit.dailyAvg[habit.dailyAvg.length - 2]
+              : habit.dailyAvg.last,
         ),
         StatsCardWidget(
           icon: Icons.pie_chart,
           name: 'Overall Rate',
           data: '${(habit.overallRate.last * 100).toStringAsFixed(1)}%',
+          current: habit.overallRate.last,
+          previous: habit.overallRate.length >= 2
+              ? habit.overallRate[habit.overallRate.length - 2]
+              : habit.overallRate.last,
         ),
       ],
     ),
