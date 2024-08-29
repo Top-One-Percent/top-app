@@ -6,6 +6,7 @@ import 'package:top/presentation/screens/blocs/blocs.dart';
 
 class HabitListTile extends StatelessWidget {
   final String habitId;
+
   const HabitListTile({super.key, required this.habitId});
 
   @override
@@ -18,12 +19,12 @@ class HabitListTile extends StatelessWidget {
 
         return ListTile(
           title: Text(habit.name,
-              style: const TextStyle(color: Colors.white, fontSize: 20.0)),
+              style: const TextStyle(color: Colors.white, fontSize: 18.0)),
           leading: Icon(
             IconData(iconCodePoint, fontFamily: 'MaterialIcons'),
             // Icons.check_box,
             color: Color(habit.colorValue),
-            size: 30.0,
+            // size: 30.0,
           ),
           trailing: Text(
             '${(_calculateProgress(habit) * 100).round().toString()}%',

@@ -14,9 +14,11 @@ class GoalCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final goalIndex = context.read<GoalBloc>().state.goals.indexWhere((g) => g.id == goal.id);
+    final goalIndex =
+        context.read<GoalBloc>().state.goals.indexWhere((g) => g.id == goal.id);
     return ListTile(
-      title: Text(goal.name, style: const TextStyle(color: Colors.white, fontSize: 20.0)),
+      title: Text(goal.name,
+          style: const TextStyle(color: Colors.white, fontSize: 18.0)),
       trailing: Text(
         '${(_calculateProgress(goal) * 100).round().toString()}%',
         style: const TextStyle(fontSize: 18.0),
