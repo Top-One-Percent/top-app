@@ -13,7 +13,8 @@ class Habit extends HiveObject {
   final String name;
 
   @HiveField(2)
-  final List<int> frequency; // Storing days as integers (0=Monday, 1=Tuesday...)
+  final List<int>
+      frequency; // Storing days as integers (0=Monday, 1=Tuesday...)
 
   @HiveField(3)
   final List<String>? remidersTime;
@@ -42,6 +43,18 @@ class Habit extends HiveObject {
   @HiveField(11)
   final List<HabitLog> dailyHabitLogs;
 
+  @HiveField(12)
+  final List<int> bestStreak;
+
+  @HiveField(13)
+  final List<int> totalDays;
+
+  @HiveField(14)
+  final List<double> dailyAvg;
+
+  @HiveField(15)
+  final List<double> overallRate;
+
   Habit({
     String? id,
     required this.name,
@@ -55,10 +68,18 @@ class Habit extends HiveObject {
     List<HabitLog>? habitLogs,
     required this.target,
     List<HabitLog>? dailyHabitLogs,
+    List<int>? bestStreak,
+    List<int>? totalDays,
+    List<double>? dailyAvg,
+    List<double>? overallRate,
   })  : colorValue = color.value,
         id = id ?? const Uuid().v4(),
         habitLogs = habitLogs ?? [],
-        dailyHabitLogs = dailyHabitLogs ?? [];
+        dailyHabitLogs = dailyHabitLogs ?? [],
+        bestStreak = bestStreak ?? [1],
+        totalDays = totalDays ?? [0],
+        dailyAvg = dailyAvg ?? [0],
+        overallRate = overallRate ?? [0];
 }
 
 @HiveType(typeId: 5)

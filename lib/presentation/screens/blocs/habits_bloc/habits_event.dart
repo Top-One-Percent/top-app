@@ -72,3 +72,9 @@ class UpdateHabit extends HabitsEvent {
 
   UpdateHabit({required this.habitId, required this.newComplianceRate});
 }
+
+class UpdateHabitStats extends HabitsEvent {
+  final String habitId;
+
+  UpdateHabitStats({required this.habitId});
+}

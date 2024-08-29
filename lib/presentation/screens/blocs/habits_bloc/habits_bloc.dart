@@ -17,6 +17,7 @@ class HabitsBloc extends Bloc<HabitsEvent, HabitsState> {
     on<UpdateHabit>(_updateHabit);
     on<RemoveHabit>(_removeHabit);
     on<ResetHabits>(_resetHabits);
+    on<UpdateHabitStats>(_updateHabitStats);
   }
 
   void _loadHabits(LoadHabits event, Emitter<HabitsState> emit) {
@@ -179,6 +180,48 @@ class HabitsBloc extends Bloc<HabitsEvent, HabitsState> {
     habitsBox.deleteAt(habitIndex);
 
     updatedHabits.removeAt(habitIndex);
+
+    emit(state.copyWith(habits: updatedHabits));
+  }
+
+  void _updateHabitStats(UpdateHabitStats event, Emitter<HabitsState> emit) {
+    final updatedHabits = List<Habit>.from(state.habits);
+    final habitIndex =
+        updatedHabits.indexWhere((habit) => habit.id == event.habitId);
+    final habit = updatedHabits[habitIndex];
+
+    // SET CONSTANTS
+    final dailyLogsSize = habit.dailyHabitLogs.length;
+
+    // CALC BEST STREAK
+    final int currentBestStreak = habit.bestStreak.last;
+    int streakCounter = 0;
+    int totalDaysCounter = 0;
+    double totalDone = 0;
+
+    for (int i = dailyLogsSize - 1; i >= 0; i--) {
+      final hCR = habit.dailyHabitLogs[i].complianceRate / habit.target;
+      totalDone += hCR;
+      if (hCR >= 1) {
+        streakCounter++;
+        totalDaysCounter++;
+      }
+      if (hCR < 1) {
+        if (streakCounter > currentBestStreak) {
+          habit.bestStreak.add(streakCounter);
+        }
+        streakCounter = 0;
+      }
+    }
+    streakCounter = streakCounter == 0 ? 1 : streakCounter;
+
+    habit.totalDays.add(totalDaysCounter);
+    habit.dailyAvg.add(totalDone / dailyLogsSize);
+    habit.overallRate.add(totalDaysCounter / dailyLogsSize);
+
+    // Update state and Hive box
+    habitsBox.putAt(habitIndex, habit);
+    updatedHabits[habitIndex] = habit;
 
     emit(state.copyWith(habits: updatedHabits));
   }

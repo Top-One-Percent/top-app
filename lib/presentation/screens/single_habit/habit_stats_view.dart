@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:top/domain/models/habit.dart';
 import 'package:top/presentation/screens/single_habit/habit_historic_chart.dart';
 import 'package:top/presentation/widgets/widgets.dart';
+
+import '../blocs/blocs.dart';
 
 class HabitStatsView extends StatefulWidget {
   final int habitId;
@@ -23,6 +27,13 @@ class _HabitStatsViewState extends State<HabitStatsView> {
     final sundayDateFormatted = DateFormat('dd MMM').format(sundayDate);
 
     return '$mondayDateFormatted - $sundayDateFormatted';
+  }
+
+  @override
+  void initState() {
+    final habit = context.read<HabitsBloc>().state.habits[widget.habitId];
+    context.read<HabitsBloc>().add(UpdateHabitStats(habitId: habit.id));
+    super.initState();
   }
 
   @override
@@ -76,14 +87,19 @@ class _HabitStatsViewState extends State<HabitStatsView> {
           const SizedBox(height: 20.0),
           const Text('Your Stats', style: TextStyle(fontSize: 24.0)),
           const SizedBox(height: 20.0),
-          _buildStatsGrid(),
+          BlocBuilder<HabitsBloc, HabitsState>(
+            builder: (context, state) {
+              final habit = state.habits[widget.habitId];
+              return _buildStatsGrid(habit);
+            },
+          ),
         ],
       ),
     );
   }
 }
 
-Widget _buildStatsGrid() {
+Widget _buildStatsGrid(Habit habit) {
   return Flexible(
     child: GridView(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -93,26 +109,26 @@ Widget _buildStatsGrid() {
         mainAxisSpacing: 18.0,
       ),
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
-      children: const [
+      children: [
         StatsCardWidget(
           icon: Icons.local_fire_department_outlined,
           name: 'Best Streak',
-          data: '7 days',
+          data: '${habit.bestStreak.last} days',
         ),
         StatsCardWidget(
           icon: Icons.verified_outlined,
           name: 'Total Done',
-          data: '31 days',
+          data: '${habit.totalDays.last} days',
         ),
         StatsCardWidget(
           icon: Icons.bar_chart_outlined,
           name: 'Daily Avg',
-          data: '82.31%',
+          data: '${(habit.dailyAvg.last * 100).toStringAsFixed(1)}%',
         ),
         StatsCardWidget(
           icon: Icons.pie_chart,
           name: 'Overall Rate',
-          data: '21.24%',
+          data: '${(habit.overallRate.last * 100).toStringAsFixed(1)}%',
         ),
       ],
     ),
