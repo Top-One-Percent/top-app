@@ -62,9 +62,12 @@ Widget _futureImage(String imgPath) {
         return const Icon(Icons.error,
             color: Colors.red); // Display an error icon if something goes wrong
       } else {
-        return Image.network(
-          snapshot.data!,
-          fit: BoxFit.cover,
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(15.0),
+          child: Image.network(
+            snapshot.data!,
+            fit: BoxFit.cover,
+          ),
         ); // Display the fetched image
       }
     },
