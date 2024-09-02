@@ -229,7 +229,7 @@ class HabitsBloc extends Bloc<HabitsEvent, HabitsState> {
         streakCounter = 0;
       }
     }
-    streakCounter = streakCounter == 0 ? 1 : streakCounter;
+    streakCounter = streakCounter;
 
     habit.totalDays.add(totalDaysCounter);
     if (habit.totalDays.length >= 3) {

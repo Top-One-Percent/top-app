@@ -76,7 +76,7 @@ class Habit extends HiveObject {
         id = id ?? const Uuid().v4(),
         habitLogs = habitLogs ?? [],
         dailyHabitLogs = dailyHabitLogs ?? [],
-        bestStreak = bestStreak ?? [1],
+        bestStreak = bestStreak ?? [0],
         totalDays = totalDays ?? [0],
         dailyAvg = dailyAvg ?? [0],
         overallRate = overallRate ?? [0];
