@@ -42,7 +42,7 @@ class _MentorScreenState extends State<MentorScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      height: 180,
+                      height: 200,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15.0),
                         color: AppColors.bluishWhite,
@@ -64,10 +64,11 @@ class _MentorScreenState extends State<MentorScreen> {
                                         fontSize: 22.0,
                                         fontWeight: FontWeight.bold),
                                   ),
+                                  SizedBox(height: 10.0),
                                   Text(
-                                    'I\'ll help you make the most of your journey with the T.O.P app.\nLet\'s achieve greatness together!',
+                                    'I will help you make the most of your journey with the T.O.P app.',
                                     style: TextStyle(
-                                        color: Colors.black, fontSize: 17.0),
+                                        color: Colors.black, fontSize: 16.0),
                                   ),
                                 ],
                               ),
@@ -100,7 +101,7 @@ Widget _buildTipsList(String title, List<Tip> items) {
       Text(
         title,
         style: const TextStyle(
-          fontSize: 24.0,
+          fontSize: 22.0,
           fontWeight: FontWeight.bold,
         ),
       ),

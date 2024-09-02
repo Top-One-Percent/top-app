@@ -19,7 +19,7 @@ class IconTextCard extends StatelessWidget {
             tileColor: AppColors.darkGrey,
             title: Text(
               text,
-              style: const TextStyle(fontSize: 18.0),
+              style: const TextStyle(fontSize: 16.0),
             ),
             leading: Icon(icon, color: AppColors.grey),
             shape: RoundedRectangleBorder(
