@@ -50,7 +50,9 @@ class GoalAdapter extends TypeAdapter<Goal> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is GoalAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is GoalAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
 
 class LogAdapter extends TypeAdapter<Log> {
@@ -85,5 +87,7 @@ class LogAdapter extends TypeAdapter<Log> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is LogAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is LogAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

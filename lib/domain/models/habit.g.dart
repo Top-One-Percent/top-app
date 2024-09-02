@@ -29,13 +29,17 @@ class HabitAdapter extends TypeAdapter<Habit> {
       habitLogs: (fields[9] as List?)?.cast<HabitLog>(),
       target: fields[10] as double,
       dailyHabitLogs: (fields[11] as List?)?.cast<HabitLog>(),
+      bestStreak: (fields[12] as List?)?.cast<int>(),
+      totalDays: (fields[13] as List?)?.cast<int>(),
+      dailyAvg: (fields[14] as List?)?.cast<double>(),
+      overallRate: (fields[15] as List?)?.cast<double>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, Habit obj) {
     writer
-      ..writeByte(12)
+      ..writeByte(16)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -59,7 +63,15 @@ class HabitAdapter extends TypeAdapter<Habit> {
       ..writeByte(10)
       ..write(obj.target)
       ..writeByte(11)
-      ..write(obj.dailyHabitLogs);
+      ..write(obj.dailyHabitLogs)
+      ..writeByte(12)
+      ..write(obj.bestStreak)
+      ..writeByte(13)
+      ..write(obj.totalDays)
+      ..writeByte(14)
+      ..write(obj.dailyAvg)
+      ..writeByte(15)
+      ..write(obj.overallRate);
   }
 
   @override
@@ -68,7 +80,9 @@ class HabitAdapter extends TypeAdapter<Habit> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is HabitAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is HabitAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
 
 class HabitLogAdapter extends TypeAdapter<HabitLog> {
@@ -103,5 +117,7 @@ class HabitLogAdapter extends TypeAdapter<HabitLog> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is HabitLogAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is HabitLogAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
