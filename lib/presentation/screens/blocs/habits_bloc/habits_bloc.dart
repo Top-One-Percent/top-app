@@ -30,7 +30,6 @@ class HabitsBloc extends Bloc<HabitsEvent, HabitsState> {
     print('Init reset, status: ${state.habitsRestarted}');
 
     final habits = event.habits;
-
     final habitsBox = await Hive.openBox<Habit>('habitsBox');
 
     if (habits.isNotEmpty) {
@@ -40,10 +39,10 @@ class HabitsBloc extends Bloc<HabitsEvent, HabitsState> {
 
         if (habit.dailyHabitLogs.isEmpty ||
             habit.dailyHabitLogs.last.date.day != DateTime.now().day) {
-          final lastLog = habit.habitLogs.isNotEmpty &&
-                  habit.habitLogs.last.date.day == DateTime.now().day
-              ? habit.habitLogs.last.complianceRate
-              : 0.0;
+          final lastLog =
+              habit.habitLogs.isNotEmpty && habit.habitLogs.last.date.day == DateTime.now().day
+                  ? habit.habitLogs.last.complianceRate
+                  : 0.0;
 
           bool hasYesterdayLog = habit.dailyHabitLogs.any(
             (log) =>
@@ -54,24 +53,20 @@ class HabitsBloc extends Bloc<HabitsEvent, HabitsState> {
 
           if (!hasYesterdayLog && habit.habitLogs.isNotEmpty) {
             if (habit.habitLogs.last.date.day != now.day) {
-              habit.dailyHabitLogs.add(HabitLog(
-                  date: now.subtract(const Duration(hours: 24)),
-                  complianceRate: lastLog));
+              habit.dailyHabitLogs.add(
+                  HabitLog(date: now.subtract(const Duration(hours: 24)), complianceRate: lastLog));
             }
           } else {
-            habit.dailyHabitLogs
-                .add(HabitLog(date: DateTime.now(), complianceRate: lastLog));
+            habit.dailyHabitLogs.add(HabitLog(date: DateTime.now(), complianceRate: lastLog));
           }
 
-          habit.habitLogs
-              .add(HabitLog(complianceRate: 0, date: DateTime.now()));
+          habit.habitLogs.add(HabitLog(complianceRate: 0, date: DateTime.now()));
 
           add(UpdateHabitStats(habitId: habit.id));
         }
       }
 
       await habitsBox.clear();
-
       for (Habit habit in habits) {
         await habitsBox.add(habit);
       }
@@ -104,8 +99,8 @@ class HabitsBloc extends Bloc<HabitsEvent, HabitsState> {
   }
 
   void _editHabit(EditHabit event, Emitter<HabitsState> emit) {
-    final habitIndex = List<Habit>.from(state.habits)
-        .indexWhere((element) => element.id == event.habitId);
+    final habitIndex =
+        List<Habit>.from(state.habits).indexWhere((element) => element.id == event.habitId);
 
     final habit = state.habits[habitIndex];
 
@@ -142,20 +137,16 @@ class HabitsBloc extends Bloc<HabitsEvent, HabitsState> {
   void _updateHabit(UpdateHabit event, Emitter<HabitsState> emit) {
     final updatedHabits = List<Habit>.from(state.habits);
 
-    final newHabitLog =
-        HabitLog(date: DateTime.now(), complianceRate: event.newComplianceRate);
+    final newHabitLog = HabitLog(date: DateTime.now(), complianceRate: event.newComplianceRate);
 
     final habit = updatedHabits[event.habitId];
-    final updatedHabitLogs = List<HabitLog>.from(habit.habitLogs)
-      ..add(newHabitLog);
+    final updatedHabitLogs = List<HabitLog>.from(habit.habitLogs)..add(newHabitLog);
 
     List<HabitLog> updatedDailyHabitLogs = [];
-    if (habit.dailyHabitLogs.isEmpty ||
-        habit.dailyHabitLogs.last.date.day != DateTime.now().day) {
+    if (habit.dailyHabitLogs.isEmpty || habit.dailyHabitLogs.last.date.day != DateTime.now().day) {
       updatedDailyHabitLogs.add(newHabitLog);
     } else if (habit.dailyHabitLogs.last.date.day == DateTime.now().day) {
-      updatedDailyHabitLogs = List<HabitLog>.from(habit.dailyHabitLogs)
-        ..removeLast();
+      updatedDailyHabitLogs = List<HabitLog>.from(habit.dailyHabitLogs)..removeLast();
       updatedDailyHabitLogs.add(newHabitLog);
     }
 
@@ -187,8 +178,7 @@ class HabitsBloc extends Bloc<HabitsEvent, HabitsState> {
 
   void _removeHabit(RemoveHabit event, Emitter<HabitsState> emit) {
     final updatedHabits = List<Habit>.from(state.habits);
-    final habitIndex =
-        updatedHabits.indexWhere((element) => element.id == event.habitId);
+    final habitIndex = updatedHabits.indexWhere((element) => element.id == event.habitId);
 
     habitsBox.deleteAt(habitIndex);
 
@@ -199,8 +189,7 @@ class HabitsBloc extends Bloc<HabitsEvent, HabitsState> {
 
   void _updateHabitStats(UpdateHabitStats event, Emitter<HabitsState> emit) {
     final updatedHabits = List<Habit>.from(state.habits);
-    final habitIndex =
-        updatedHabits.indexWhere((habit) => habit.id == event.habitId);
+    final habitIndex = updatedHabits.indexWhere((habit) => habit.id == event.habitId);
     final habit = updatedHabits[habitIndex];
 
     // SET CONSTANTS
