@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:top/core/utils/capitalize.dart';
 
 class UnitTypeSelectorWidget extends StatefulWidget {
   final String? initialUnit;
@@ -19,15 +20,9 @@ class _UnitTypeSelectorWidgetState extends State<UnitTypeSelectorWidget> {
       context: context,
       builder: (context) {
         return Container(
-          height: 250, // Adjust height based on your needs
+          height: 330, // Adjust height based on your needs
           padding: const EdgeInsets.all(15.0),
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4,
-              childAspectRatio: 3, // Aspect ratio adjusted for text
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-            ),
+          child: ListView.builder(
             itemCount: units.length,
             itemBuilder: (context, index) {
               return GestureDetector(
@@ -38,14 +33,24 @@ class _UnitTypeSelectorWidgetState extends State<UnitTypeSelectorWidget> {
                   });
                   Navigator.of(context).pop();
                 },
-                child: Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(units[index],
-                      style: const TextStyle(fontSize: 20.0, color: Colors.white)),
+                child: Column(
+                  children: [
+                    ListTile(
+                      title: Text(
+                        '${capitalize(units[index])}: ${units[index] == 'rep' ? 'For anything that must be counted (even if just once).' : units[index] == 'hr' ? 'For habits that take 1 hour or more' : 'For habits that take 1 minute or more'}',
+                        style: const TextStyle(fontSize: 18.0),
+                      ),
+                      leading: Icon(units[index] == 'rep' ? Icons.repeat : Icons.timer_sharp,
+                          size: 35.0),
+                      trailing: const Icon(Icons.circle_outlined),
+                    ),
+                    index < 2
+                        ? const Divider(
+                            indent: 10.0,
+                            endIndent: 10.0,
+                          )
+                        : const SizedBox(),
+                  ],
                 ),
               );
             },
