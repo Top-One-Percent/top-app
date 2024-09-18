@@ -32,7 +32,10 @@ class _HabitsScreenState extends State<HabitsScreen> {
   void initState() {
     super.initState();
     final habitsBloc = context.read<HabitsBloc>();
-    habitsBloc.add(ResetHabits(habits: habitsBloc.state.habits));
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      habitsBloc.add(ResetHabits(habits: habitsBloc.state.habits));
+    });
   }
 
   @override
@@ -57,72 +60,61 @@ class _HabitsScreenState extends State<HabitsScreen> {
           )
         ],
       ),
-      body: BlocListener<HabitsBloc, HabitsState>(
-        listenWhen: (previous, current) =>
-            previous.habitsRestarted != current.habitsRestarted,
-        listener: (context, state) {},
-        child: BlocBuilder<HabitsBloc, HabitsState>(
-          builder: (context, state) {
-            if (state.habits.isEmpty) {
-              return const Center(
-                child: Text(
-                  'No habits yet',
-                  style: TextStyle(fontSize: 22.0),
-                ),
-              );
-            } else if (!state.habitsRestarted) {
-              return const Center(
-                  child: Text(
-                'Loading...',
+      body: BlocBuilder<HabitsBloc, HabitsState>(
+        builder: (context, state) {
+          if (state.habits.isEmpty) {
+            return const Center(
+              child: Text(
+                'No habits yet',
                 style: TextStyle(fontSize: 22.0),
-              ));
-            } else {
-              //? FILTER HABITS LIST
-              final habits = isFiltered
-                  ? state.habits.where(doToday).toList()
-                  : state.habits;
-
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 15.0),
-                child: ListView.builder(
-                  itemCount: habits.length,
-                  itemBuilder: (context, index) {
-                    Random random = Random();
-
-                    final habit = habits[index];
-                    return Dismissible(
-                      key: ValueKey(habit.id),
-                      direction: DismissDirection.endToStart,
-                      background: Container(
-                        padding: const EdgeInsets.all(15.0),
-                        alignment: Alignment.centerRight,
-                        color: Colors.red,
-                        child: const Icon(
-                          Icons.delete_sweep,
-                          color: Colors.white,
-                          size: 35.0,
-                        ),
+              ),
+            );
+          } else if (!state.habitsRestarted) {
+            return const Center(
+                child: Text(
+              'Loading...',
+              style: TextStyle(fontSize: 22.0),
+            ));
+          } else {
+            //? FILTER HABITS LIST
+            final habits = isFiltered ? state.habits.where(doToday).toList() : state.habits;
+            Random random = Random();
+            print('Now the screen is being built');
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15.0),
+              child: ListView.builder(
+                itemCount: habits.length,
+                itemBuilder: (context, index) {
+                  final habit = habits[index];
+                  return Dismissible(
+                    key: ValueKey(habit.id),
+                    direction: DismissDirection.endToStart,
+                    background: Container(
+                      padding: const EdgeInsets.all(15.0),
+                      alignment: Alignment.centerRight,
+                      color: Colors.red,
+                      child: const Icon(
+                        Icons.delete_sweep,
+                        color: Colors.white,
+                        size: 35.0,
                       ),
-                      child: FadeInDown(
-                        from: 50,
-                        duration:
-                            Duration(milliseconds: 300 + random.nextInt(301)),
-                        child: HabitListTile(
-                          habitId: habit.id,
-                        ),
+                    ),
+                    child: FadeInDown(
+                      from: 50,
+                      duration: Duration(milliseconds: 300 + random.nextInt(301)),
+                      child: HabitListTile(
+                        habitId: habit.id,
                       ),
-                      onDismissed: (direction) {
-                        context
-                            .read<HabitsBloc>()
-                            .add(RemoveHabit(habitId: habit.id));
-                      },
-                    );
-                  },
-                ),
-              );
-            }
-          },
-        ),
+                    ),
+                    onDismissed: (direction) {
+                      context.read<HabitsBloc>().add(RemoveHabit(habitId: habit.id));
+                    },
+                  );
+                },
+              ),
+            );
+          }
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
