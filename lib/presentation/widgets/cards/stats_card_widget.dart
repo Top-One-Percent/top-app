@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:top/presentation/widgets/cards/step_card_widget.dart';
 
 import '../../../config/theme/app_colors.dart';
 

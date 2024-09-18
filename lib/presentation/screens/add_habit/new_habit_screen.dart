@@ -19,7 +19,7 @@ class _NewHabitScreenState extends State<NewHabitScreen> {
 
   Color _selectedColor = AppColors.colorOptions[0];
   List<int> _selectedDays = [];
-  List<String> _selectedHours = [];
+  final List<String> _selectedHours = [];
   String _selectedIcon = '57402';
   String _selectedUnitType = 'rep';
   List<String> _selectedSteps = [];

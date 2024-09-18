@@ -7,7 +7,7 @@ class StepScreen extends StatefulWidget {
   final Color habitColor;
   final VoidCallback onStepsFinished;
 
-  StepScreen({
+  const StepScreen({
     super.key,
     required this.steps,
     required this.habitColor,
