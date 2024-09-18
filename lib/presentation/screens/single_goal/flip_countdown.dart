@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:top/config/router/app_router.dart';
+import 'package:top/config/theme/app_colors.dart';
+import 'package:top/presentation/widgets/widgets.dart';
 
 class FlipCountdown extends StatefulWidget {
   final DateTime targetDate;
@@ -16,7 +19,8 @@ class _FlipCountdownState extends State<FlipCountdown> {
   Duration duration = const Duration();
 
   void _calculateTimeLeft(DateTime targetDate) {
-    final seconds = targetDate.difference(DateTime.now()).inSeconds;
+    int seconds = targetDate.difference(DateTime.now()).inSeconds;
+    if (seconds < 0) seconds = 0;
     setState(() => duration = Duration(seconds: seconds));
   }
 
@@ -123,6 +127,46 @@ class _FlipCountdownState extends State<FlipCountdown> {
             ),
           ],
         ),
+        const SizedBox(height: 15.0),
+        duration == const Duration(seconds: 0)
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Time is up', style: TextStyle(fontSize: 20.0)),
+                  IconButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => Dialog(
+                          backgroundColor: AppColors.darkGrey,
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Text(
+                                  'If you have achieved your goal you can leave it as is, it will be moved to the "Achieved Goals" section. \n\nIf you have not reached it, edit the deadline to give yourself more time.',
+                                  style: TextStyle(fontSize: 18.0),
+                                  textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(height: 15.0),
+                                WhiteFilledButtonWidget(
+                                  onPressed: () {
+                                    appRouter.pop();
+                                  },
+                                  buttonText: 'Ok',
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.help_outline, color: Colors.white),
+                  )
+                ],
+              )
+            : const SizedBox()
       ],
     );
   }
