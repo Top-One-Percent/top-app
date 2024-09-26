@@ -8,15 +8,15 @@ class AppColors {
   static const Color bluishWhite = Color(0xFFFAFDFD);
 
   static const List<Color> colorOptions = [
-    Color(0xFFD32F2F), // Dark Red
-    Color(0xFFC2185B), // Dark Pink
-    Color(0xFF7B1FA2), // Dark Purple
-    Color(0xFF303F9F), // Dark Blue
-    Color(0xFF0288D1), // Dark Cyan
-    Color(0xFF00796B), // Dark Teal
-    Color(0xFF388E3C), // Dark Green
-    Color(0xFFFBC02D), // Dark Yellow
-    Color(0xFFF57C00), // Dark Orange
-    Color(0xFF5D4037), // Dark Brown
+    Color.fromARGB(255, 255, 0, 0),
+    Color.fromARGB(255, 255, 0, 102),
+    Color.fromARGB(255, 179, 0, 255),
+    Color.fromARGB(255, 0, 34, 255),
+    Color.fromARGB(255, 0, 166, 255),
+    Color.fromARGB(255, 0, 255, 225),
+    Color.fromARGB(255, 0, 255, 13),
+    Color.fromARGB(255, 255, 217, 0),
+    Color.fromARGB(255, 255, 130, 6),
+    Color.fromARGB(255, 138, 95, 81),
   ];
 }
