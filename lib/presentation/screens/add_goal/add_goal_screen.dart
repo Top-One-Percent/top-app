@@ -26,7 +26,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
         title: const Text('Add New Goal'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 40.0),
         child: Form(
           child: Column(
             children: [
