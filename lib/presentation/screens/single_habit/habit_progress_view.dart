@@ -38,9 +38,7 @@ class RepsHabitProgressView extends StatelessWidget {
     return BlocBuilder<HabitsBloc, HabitsState>(
       builder: (context, state) {
         final habit = state.habits[habitId];
-        final lastLog = habit.habitLogs.isNotEmpty
-            ? habit.habitLogs.last.complianceRate
-            : 0.0;
+        final lastLog = habit.habitLogs.isNotEmpty ? habit.habitLogs.last.complianceRate : 0.0;
         final achievementPercentage = lastLog / habit.target;
 
         return Center(
@@ -56,13 +54,11 @@ class RepsHabitProgressView extends StatelessWidget {
                     child: TweenAnimationBuilder(
                       tween: Tween(begin: 0.0, end: achievementPercentage),
                       duration: const Duration(milliseconds: 400),
-                      builder: (context, value, child) =>
-                          CircularProgressIndicator(
+                      builder: (context, value, child) => CircularProgressIndicator(
                         value: value,
                         strokeWidth: 5,
                         backgroundColor: AppColors.grey,
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                            Color(habit.colorValue)),
+                        valueColor: AlwaysStoppedAnimation<Color>(Color(habit.colorValue)),
                       ),
                     ),
                   ),
@@ -71,9 +67,7 @@ class RepsHabitProgressView extends StatelessWidget {
                       _showUpdateValueDialog(context, habitId, lastLog, habit);
                     },
                     child: Text(
-                      hasDecimalPart(lastLog)
-                          ? '$lastLog'
-                          : '${lastLog.toInt()}',
+                      hasDecimalPart(lastLog) ? '$lastLog' : '${lastLog.toInt()}',
                       style: const TextStyle(fontSize: 24, color: Colors.white),
                     ),
                   ),
@@ -87,8 +81,9 @@ class RepsHabitProgressView extends StatelessWidget {
                     icon: Icons.remove,
                     onPressed: () {
                       if (lastLog - 1 >= 0) {
-                        context.read<HabitsBloc>().add(UpdateHabit(
-                            habitId: habitId, newComplianceRate: lastLog - 1));
+                        context
+                            .read<HabitsBloc>()
+                            .add(UpdateHabit(habitId: habitId, newComplianceRate: lastLog - 1));
                       }
                     },
                   ),
@@ -97,8 +92,9 @@ class RepsHabitProgressView extends StatelessWidget {
                     icon: Icons.add,
                     onPressed: () {
                       // if (lastLog + 1 <= habit.target) {
-                      context.read<HabitsBloc>().add(UpdateHabit(
-                          habitId: habitId, newComplianceRate: lastLog + 1));
+                      context
+                          .read<HabitsBloc>()
+                          .add(UpdateHabit(habitId: habitId, newComplianceRate: lastLog + 1));
                       // }
                     },
                   )
@@ -111,10 +107,8 @@ class RepsHabitProgressView extends StatelessWidget {
     );
   }
 
-  void _showUpdateValueDialog(
-      BuildContext context, int habitId, double currentValue, Habit habit) {
-    final TextEditingController valueController =
-        TextEditingController(text: '$currentValue');
+  void _showUpdateValueDialog(BuildContext context, int habitId, double currentValue, Habit habit) {
+    final TextEditingController valueController = TextEditingController(text: '$currentValue');
 
     showDialog(
       context: context,
@@ -127,7 +121,7 @@ class RepsHabitProgressView extends StatelessWidget {
           backgroundColor: Colors.grey[850],
           content: TextFormFieldWidget(
             controller: valueController,
-            keyboardType: TextInputType.number,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
             labelText: '',
             hintText: '',
             icon: Icons.edit,
@@ -143,9 +137,9 @@ class RepsHabitProgressView extends StatelessWidget {
               onPressed: () {
                 final newValue = double.tryParse(valueController.text);
                 if (newValue != null) {
-                  context.read<HabitsBloc>().add(UpdateHabit(
-                      habitId: habitId,
-                      newComplianceRate: newValue.toDouble()));
+                  context
+                      .read<HabitsBloc>()
+                      .add(UpdateHabit(habitId: habitId, newComplianceRate: newValue.toDouble()));
                   Navigator.of(context).pop();
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -185,12 +179,10 @@ class _TimeHabitProgressViewState extends State<TimeHabitProgressView> {
   }
 
   Future<void> _initializeTimer() async {
-    final initialHabit =
-        context.read<HabitsBloc>().state.habits[widget.habitId];
+    final initialHabit = context.read<HabitsBloc>().state.habits[widget.habitId];
     int initialElapsedSeconds = 0;
     if (initialHabit.habitLogs.isNotEmpty) {
-      initialElapsedSeconds =
-          initialHabit.habitLogs.last.complianceRate.toInt();
+      initialElapsedSeconds = initialHabit.habitLogs.last.complianceRate.toInt();
     }
 
     // final int elapsedSeconds = await BackgroundTimer.getElapsedSeconds();
@@ -221,9 +213,9 @@ class _TimeHabitProgressViewState extends State<TimeHabitProgressView> {
       setState(() {
         _elapsedSeconds = elapsedSeconds;
       });
-      context.read<HabitsBloc>().add(UpdateHabit(
-          habitId: widget.habitId,
-          newComplianceRate: _elapsedSeconds.toDouble()));
+      context
+          .read<HabitsBloc>()
+          .add(UpdateHabit(habitId: widget.habitId, newComplianceRate: _elapsedSeconds.toDouble()));
     }
   }
 
@@ -282,22 +274,19 @@ class _TimeHabitProgressViewState extends State<TimeHabitProgressView> {
                       value: achievementPercentage,
                       strokeWidth: 5,
                       backgroundColor: Colors.grey,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                          Color(habit.colorValue)),
+                      valueColor: AlwaysStoppedAnimation<Color>(Color(habit.colorValue)),
                     ),
                   ),
                   Column(
                     children: [
                       Text(
                         '${_formatTime(_elapsedSeconds)}/',
-                        style:
-                            const TextStyle(fontSize: 24, color: Colors.white),
+                        style: const TextStyle(fontSize: 24, color: Colors.white),
                       ),
                       Text(
                         _formatTime((habit.target).toInt()),
                         style: const TextStyle(
-                            fontSize: 18,
-                            color: Color.fromARGB(202, 255, 255, 255)),
+                            fontSize: 18, color: Color.fromARGB(202, 255, 255, 255)),
                       ),
                     ],
                   ),
@@ -330,8 +319,7 @@ class CircularButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onPressed;
 
-  const CircularButton(
-      {super.key, required this.icon, required this.onPressed});
+  const CircularButton({super.key, required this.icon, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
