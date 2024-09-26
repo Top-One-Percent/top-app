@@ -30,26 +30,24 @@ class _MentorScreenState extends State<MentorScreen> {
       body: Consumer<TipProvider>(
         builder: (context, tipProvider, child) {
           if (tipProvider.tips.isEmpty) {
-            return const Center(
-                child: CircularProgressIndicator(color: Colors.white));
+            return const Center(child: CircularProgressIndicator(color: Colors.white));
           }
 
           return SafeArea(
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      height: 200,
+                      height: 150,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15.0),
                         color: AppColors.bluishWhite,
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 15.0),
+                        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -67,8 +65,7 @@ class _MentorScreenState extends State<MentorScreen> {
                                   SizedBox(height: 10.0),
                                   Text(
                                     'I will help you make the most of your journey with the T.O.P app.',
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 16.0),
+                                    style: TextStyle(color: Colors.black, fontSize: 16.0),
                                   ),
                                 ],
                               ),
