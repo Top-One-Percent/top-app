@@ -202,13 +202,13 @@ class HabitsBloc extends Bloc<HabitsEvent, HabitsState> {
     double totalDone = 0;
 
     for (int i = dailyLogsSize - 1; i >= 0; i--) {
-      final hCR = habit.dailyHabitLogs[i].complianceRate / habit.target;
-      totalDone += hCR;
-      if (hCR >= 1) {
+      final habitComplianceRate = habit.dailyHabitLogs[i].complianceRate / habit.target;
+      totalDone += habitComplianceRate;
+      if (habitComplianceRate >= 1) {
         streakCounter++;
         totalDaysCounter++;
       }
-      if (hCR < 1) {
+      if (habitComplianceRate < 1) {
         if (streakCounter > currentBestStreak) {
           habit.bestStreak.add(streakCounter);
           if (habit.bestStreak.length >= 3) {
@@ -216,6 +216,12 @@ class HabitsBloc extends Bloc<HabitsEvent, HabitsState> {
           }
         }
         streakCounter = 0;
+      }
+      if (i == 0 || streakCounter > currentBestStreak) {
+        habit.bestStreak.add(streakCounter);
+        if (habit.bestStreak.length >= 3) {
+          habit.bestStreak.removeAt(0);
+        }
       }
     }
     streakCounter = streakCounter;
